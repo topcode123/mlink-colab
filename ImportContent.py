@@ -280,7 +280,7 @@ def process_content(article, url):
     return content
 
 
-def rest_image_url(website, user, password, url_img, src_img):
+def rest_image_url(website, user, password, url_img):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
         # This is another valid field
@@ -334,9 +334,8 @@ def import_content(content, keyword, anchor_text):
         idthump = content['user']["web_info"]["imageid"]
     content["content"] = content["content"].replace("Bất động sản", "")
     content["content"] = content["content"].replace("bất động sản", "")
-    # find keyword
+    # find keyword and replace anchor text for test
     content["content"] = content.get("content").replace(str(keyword), anchor_text)
-    # url["keyword"]["Keyword"]
     credentials = user + ':' + password
     token = base64.b64encode(credentials.encode())
     header = {'Authorization': 'Basic ' + token.decode('utf-8'), 'Content-Type': 'application/json',
@@ -389,7 +388,7 @@ def import_content(content, keyword, anchor_text):
 
 def get_contents(article, url):
     content_process = process_content(article, url)
-    print(url)
+    print("url data: ", url)
     anchor_text = url["campaign"]["listAnchorText"][0]
     content = import_content(content_process, url["keyword"], anchor_text)
 

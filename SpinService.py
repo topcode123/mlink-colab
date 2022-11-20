@@ -1,17 +1,13 @@
 import pickle
 import random
-from underthesea import sent_tokenize as sent_tokenize_vi
 from underthesea import word_tokenize as word_tokenize_vi
-
 from nltk.corpus import wordnet
-from nltk.tokenize import word_tokenize
 from random import randint
 import nltk.data
-import time
 from bs4 import BeautifulSoup as soup
 from nltk.tokenize import word_tokenize as word_tokenize_en
-from nltk.tokenize import sent_tokenize as sent_tokenize_en
 import re
+
 
 class SpinService:
 
@@ -24,8 +20,7 @@ class SpinService:
         nltk.download('averaged_perceptron_tagger')
         wordnet.ensure_loaded()
 
-
-    def spin_paragraph(self,p_paragraph1,keyword):
+    def spin_paragraph(self, p_paragraph1, keyword):
         p_paragraph = [str(t) if not re.match(r'<[^>]+>', str(t)) else str(t) for t in p_paragraph1.contents]
         word_splits = []
         try:

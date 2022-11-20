@@ -1,17 +1,11 @@
-def get_database():
-    # Provide the mongodb atlas url to connect python to mongodb using pymongo
-    CONNECTION_STRING_MGA1 = "mongodb://mnetwork:TfoMLF73tmFHAh%23m%23%25T96kqnj@190.2.148.167:27017/?authMechanism=DEFAULT&authSource=admin"
-    # Create a connection using MongoClient. You can import MongoClient or use pymongo.MongoClient
-    from pymongo import MongoClient
-    client = MongoClient(CONNECTION_STRING_MGA1)
-
-    # Create the database for our example (we will use the same database throughout the tutorial
-    return client
-
-
 # This is added so that many files can reuse the function get_database()
+import traceback
+
+from bson import ObjectId
+from bs4 import BeautifulSoup
 from ImportContent import get_contents
-from google_colab_support import *
+from google_colab_support import ColabSupport
+from Settings import CONNECTION_STRING_MGA1
 from googlesearch import search
 import requests
 import random
@@ -19,11 +13,18 @@ from Title_fix import Article
 from configuration import Configuration
 from urllib.parse import urlparse
 from requests import get
-from pymongo import MongoClient
 import time
+import re
 
-colabstatus = MongoClient(CONNECTION_STRING_MGA1).colabstatus.data
 filename = get('http://172.28.0.2:9000/api/sessions').json()[0]['name']
+
+
+def get_database():
+    from pymongo import MongoClient
+    client = MongoClient(CONNECTION_STRING_MGA1)
+
+    # Create the database for our example (we will use the same database throughout the tutorial
+    return client
 
 
 def replace_attr(soup, from_attr: str, to_attr: str):
@@ -52,6 +53,8 @@ userAgents = [
 cl = client1.queuekeywords.data
 url = client1.url_test.data
 cl1 = client1.keywords
+colab_status = client1.colabstatus.data
+
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
     # This is another valid field
@@ -61,7 +64,6 @@ headers = {
 def ColabSimple():
     if cl.count_documents({}) > 0:
         try:
-            # h=h+1
             keyword = cl.find_one_and_delete({})
             print("key word: ", keyword)
             if keyword:
@@ -211,7 +213,7 @@ while True:
 
     while True:
         if time.time() - lasttime > 100:
-            colabstatus.replace_one({'may': filename}, {'may': filename, 'lasttimeupdate': time.time()}, True)
+            colab_status.replace_one({'may': filename}, {'may': filename, 'lasttimeupdate': time.time()}, True)
             lasttime = time.time()
         cancle = False
         ColabSimple()
