@@ -1,23 +1,10 @@
 import datetime
 
 from newspaper import Config
-from sys import prefix
-from pymongo import MongoClient
-import time
 import html.parser
-import requests
-from requests.models import HTTPBasicAuth
-from Settings import *
-from bs4 import BeautifulSoup
-import re
 from urllib.parse import urlparse
 from SpinService import *
-import json
-from unidecode import unidecode
-from Title_fix import *
-from aiohttp import request
 import requests
-import json
 import base64
 import html
 import html.parser
@@ -27,10 +14,7 @@ from pymongo import MongoClient
 import time
 from PIL import Image
 import io
-from unidecode import unidecode
-from aiohttp import request
 from extract import ContentExtractor
-from lxml.html import tostring
 import re
 
 
@@ -57,7 +41,7 @@ spinService = SpinService()
 config = Config()
 campaign_root = MongoClient(CONNECTION_STRING_MGA1).campaigns.data
 comment_queue = MongoClient(CONNECTION_STRING_MGA1).campaigns.comment_queue
-keywords = MongoClient(CONNECTION_STRING_MGA1).keywords
+keywords = MongoClient(CONNECTION_STRING_MGA1).campaigns.mlinkkeywords
 
 contentExtractor = ContentExtractor(config)
 from bs4 import BeautifulSoup
@@ -132,7 +116,6 @@ def process_content(article, url):
                     break
         except:
             pass
-    # print(src_img)
     if url["campaign"]["Top10url"]:
         if len(url["campaign"]["Top10url"]) > 0:
             internal_link_total = random.choice(url["campaign"]["Top10url"])
@@ -339,19 +322,21 @@ def rest_image_url(website, user, password, url_img, src_img):
             return None
 
 
-def import_content(content):
+def import_content(content, keyword, anchor_text):
     cl = content['user']["web_info"]
     website = cl["WebsitePost"]
     websiteimg = cl["Website"] + "/wp-json/wp/v2/media"
     user = cl["UserWP"]
     password = cl["PasswordWP"]
-    idthump = None
 
-    idthump = rest_image_url(websiteimg, user, password, content['url_img'], content["src_img"])
+    idthump = rest_image_url(websiteimg, user, password, content['url_img'], content["src_img"]) or None
     if idthump is None:
         idthump = content['user']["web_info"]["imageid"]
     content["content"] = content["content"].replace("Bất động sản", "")
     content["content"] = content["content"].replace("bất động sản", "")
+    # find keyword
+    content["content"] = content.get("content").replace(str(keyword), anchor_text)
+    # url["keyword"]["Keyword"]
     credentials = user + ':' + password
     token = base64.b64encode(credentials.encode())
     header = {'Authorization': 'Basic ' + token.decode('utf-8'), 'Content-Type': 'application/json',
@@ -404,6 +389,8 @@ def import_content(content):
 
 def get_contents(article, url):
     content_process = process_content(article, url)
-    content = import_content(content_process)
+    print(url)
+    anchor_text = url["campaign"]["listAnchorText"][0]
+    content = import_content(content_process, url["keyword"], anchor_text)
 
     return content
