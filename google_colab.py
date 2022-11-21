@@ -70,7 +70,7 @@ def ColabSimple():
                 if keyword["campaign"]["language"] == "vi":
                     try:
                         h = 0
-                        for i in search(keyword["keyword"]["Keyword"], tld="com.vn", start=0, num=20, stop=20, pause=1,
+                        for i in search(keyword["keyword"], tld="com.vn", start=0, num=20, stop=20, pause=1,
                                         user_agent=random.choice(userAgents), lang="vi", country="vn"):
                             i = i.split("#")[0]
 
@@ -140,7 +140,7 @@ def ColabSimple():
                         print(str(e))
                 else:
                     h = 0
-                    for i in search(keyword["keyword"]["Keyword"], tld="com", start=0, num=20, stop=20, pause=1,
+                    for i in search(keyword["keyword"], tld="com", start=0, num=20, stop=20, pause=1,
                                     user_agent=random.choice(userAgents), lang="en"):
                         i = i.split("#")[0]
                         h = h + 1
