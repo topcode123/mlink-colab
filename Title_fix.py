@@ -173,6 +173,7 @@ class Article(object):
                 self.download_exception_msg = str(e)
                 log.debug('Download failed on URL %s because of %s' %
                           (self.url, self.download_exception_msg))
+                print(e)
                 return
         else:
             html = input_html
