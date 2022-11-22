@@ -21,6 +21,7 @@ filename = get('http://172.28.0.2:9000/api/sessions').json()[0]['name']
 
 def get_database():
     from pymongo import MongoClient
+    print(CONNECTION_STRING_MGA1)
     client = MongoClient(CONNECTION_STRING_MGA1)
 
     # Create the database for our example (we will use the same database throughout the tutorial
@@ -50,9 +51,9 @@ userAgents = [
     'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
     'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.71 Safari/537.36',
     'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.83 Safari/537.1']
-cl = client1.queuekeywords.mlink
+queue_keywords = client1.queuekeywords.mlink
 url = client1.url_test.data
-cl1 = client1.keywords
+mlink_keywords = client1.campaigns.mlinkkeywords
 colab_status = client1.colabstatus.data
 
 headers = {
@@ -62,25 +63,26 @@ headers = {
 
 
 def ColabSimple():
-    if cl.count_documents({}) > 0:
+    if queue_keywords.count_documents({}) > 0:
         try:
-            keyword = cl.find_one_and_delete({})
+            keyword = queue_keywords.find_one_and_delete({})
             print("key word: ", keyword)
             if keyword:
                 if keyword["campaign"]["language"] == "vi":
                     try:
                         h = 0
-                        for i in search(keyword["keyword"], tld="com.vn", start=0, num=20, stop=20, pause=1,
-                                        user_agent=random.choice(userAgents), lang="vi", country="vn"):
-                            i = i.split("#")[0]
+                        for web in search(keyword["keyword"]["keyword"], tld="com.vn", start=0, num=20, stop=20,
+                                          pause=1,
+                                          user_agent=random.choice(userAgents), lang="vi", country="vn"):
+                            web = web.split("#")[0]
 
                             h = h + 1
-                            if client1.urldone[str(keyword["web_info"]["_id"])].count_documents({"link": i}) > 0:
+                            if client1.urldone[str(keyword["web_info"]["_id"])].count_documents({"link": web}) > 0:
                                 continue
-                            domain = urlparse(i).netloc
+                            domain = urlparse(web).netloc
                             if domain in keyword["web_info"]["Blacklist"]:
                                 continue
-                            a = [{"link": i, "campaign": keyword["campaign"], "web_info": keyword["web_info"],
+                            a = [{"link": web, "campaign": keyword["campaign"], "web_info": keyword["web_info"],
                                   "keyword": keyword["keyword"]}]
 
                             config = Configuration()
@@ -93,25 +95,25 @@ def ColabSimple():
                                 r = r.decode("utf-8")
                                 soups = BeautifulSoup(r)
                                 img = soups.find_all("img")
-                                for i in img:
+                                for web in img:
                                     try:
-                                        i.replace_with(replace_attr(i, 'data-src', 'src'))
-                                        i.replace_with(replace_attr(i, 'data-lazy-src', 'src'))
-                                        i.replace_with(replace_attr(i, 'lazy-src', 'src'))
-                                        i.replace_with(replace_attr(i, 'data-srcset', 'srcset'))
-                                        i.replace_with(replace_attr(i, 'data-lazy-srcset', 'srcset'))
-                                        i.replace_with(replace_attr(i, 'lazy-srcset', 'srcset'))
-                                        i.replace_with(replace_attr(i, 'data-original', 'src'))
+                                        web.replace_with(replace_attr(web, 'data-src', 'src'))
+                                        web.replace_with(replace_attr(web, 'data-lazy-src', 'src'))
+                                        web.replace_with(replace_attr(web, 'lazy-src', 'src'))
+                                        web.replace_with(replace_attr(web, 'data-srcset', 'srcset'))
+                                        web.replace_with(replace_attr(web, 'data-lazy-srcset', 'srcset'))
+                                        web.replace_with(replace_attr(web, 'lazy-srcset', 'srcset'))
+                                        web.replace_with(replace_attr(web, 'data-original', 'src'))
                                     except:
                                         pass
 
                                     try:
-                                        liii = re.findall("lazy.*=\".*\"", str(i))
+                                        liii = re.findall("lazy.*=\".*\"", str(web))
                                         if len(liii) > 0:
                                             for j in liii:
                                                 hhh = j.split(" ")[0].split("=")[-1]
                                                 if ".JPG" in hhh.upper() or ".PNG" in hhh.upper():
-                                                    i["src"] = hhh
+                                                    web["src"] = hhh
                                                     break
                                     except Exception as e:
                                         traceback.print_exc()
@@ -130,7 +132,7 @@ def ColabSimple():
                                     except Exception as e:
                                         traceback.print_exc()
                                 if h == 20:
-                                    cl1[keyword['campaign']["WebsiteId"]].update_one(
+                                    mlink_keywords.update_one(
                                         {"_id": ObjectId(keyword["keyword"]["_id"])}, {"$set": {"status": "fail"}})
                                     break
                             except Exception as e:
@@ -140,16 +142,16 @@ def ColabSimple():
                         print(str(e))
                 else:
                     h = 0
-                    for i in search(keyword["keyword"], tld="com", start=0, num=20, stop=20, pause=1,
-                                    user_agent=random.choice(userAgents), lang="en"):
-                        i = i.split("#")[0]
+                    for web in search(keyword["keyword"]["keyword"], tld="com", start=0, num=20, stop=20, pause=1,
+                                      user_agent=random.choice(userAgents), lang="en"):
+                        web = web.split("#")[0]
                         h = h + 1
-                        if client1.urldone[str(keyword["web_info"]["_id"])].count_documents({"link": i}) > 0:
+                        if client1.urldone[str(keyword["web_info"]["_id"])].count_documents({"link": web}) > 0:
                             continue
-                        domain = urlparse(i).netloc
+                        domain = urlparse(web).netloc
                         if domain in keyword["web_info"]["Blacklist"]:
                             continue
-                        a = [{"link": i, "campaign": keyword["campaign"], "web_info": keyword["web_info"],
+                        a = [{"link": web, "campaign": keyword["campaign"], "web_info": keyword["web_info"],
                               "keyword": keyword["keyword"]}]
 
                         config = Configuration()
@@ -162,24 +164,24 @@ def ColabSimple():
 
                             soups = BeautifulSoup(r)
                             img = soups.find_all("img")
-                            for i in img:
+                            for web in img:
                                 try:
-                                    i.replace_with(replace_attr(i, 'data-src', 'src'))
-                                    i.replace_with(replace_attr(i, 'data-lazy-src', 'src'))
-                                    i.replace_with(replace_attr(i, 'lazy-src', 'src'))
-                                    i.replace_with(replace_attr(i, 'data-srcset', 'srcset'))
-                                    i.replace_with(replace_attr(i, 'data-lazy-srcset', 'srcset'))
-                                    i.replace_with(replace_attr(i, 'lazy-srcset', 'srcset'))
-                                    i.replace_with(replace_attr(i, 'data-original', 'src'))
+                                    web.replace_with(replace_attr(web, 'data-src', 'src'))
+                                    web.replace_with(replace_attr(web, 'data-lazy-src', 'src'))
+                                    web.replace_with(replace_attr(web, 'lazy-src', 'src'))
+                                    web.replace_with(replace_attr(web, 'data-srcset', 'srcset'))
+                                    web.replace_with(replace_attr(web, 'data-lazy-srcset', 'srcset'))
+                                    web.replace_with(replace_attr(web, 'lazy-srcset', 'srcset'))
+                                    web.replace_with(replace_attr(web, 'data-original', 'src'))
                                 except:
                                     pass
                                 try:
-                                    liii = re.findall("lazy.*=\".*\"", str(i))
+                                    liii = re.findall("lazy.*=\".*\"", str(web))
                                     if len(liii) > 0:
                                         for j in liii:
                                             hhh = j.split(" ")[0].split("=")[-1]
                                             if ".JPG" in hhh.upper() or ".PNG" in hhh.upper():
-                                                i["src"] = hhh
+                                                web["src"] = hhh
                                                 break
                                 except Exception as e:
                                     traceback.print_exc()
@@ -198,7 +200,7 @@ def ColabSimple():
                                 except Exception as e:
                                     traceback.print_exc()
                             if h == 20:
-                                cl1[keyword['campaign']["WebsiteId"]].update_one(
+                                mlink_keywords.update_one(
                                     {"_id": ObjectId(keyword["keyword"]["_id"])}, {"$set": {"status": "fail"}})
                                 break
                         except Exception as e:
