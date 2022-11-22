@@ -172,7 +172,7 @@ class Article(object):
         if input_html is None:
             try:
                 html = network.get_html_2XX_only(self.url, self.config)
-            except requests.exceptions.RequestException as e:
+            except Exception as e:
                 print(e)
                 self.download_state = ArticleDownloadState.FAILED_RESPONSE
                 self.download_exception_msg = str(e)
