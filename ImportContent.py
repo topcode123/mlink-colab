@@ -16,6 +16,13 @@ from PIL import Image
 import io
 from extract import ContentExtractor
 import re
+import logging
+
+logging.basicConfig(format='%(asctime)s,%(msecs)03d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
+                    datefmt='%Y-%m-%d:%H:%M:%S',
+                    level=logging.DEBUG)
+
+logger = logging.getLogger(__name__)
 
 
 def no_accent_vietnamese(s):
@@ -39,7 +46,7 @@ def no_accent_vietnamese(s):
 spinService = SpinService()
 
 config = Config()
-campaign_root = MongoClient(CONNECTION_STRING_MGA1).campaigns.data
+campaign_root = MongoClient(CONNECTION_STRING_MGA1).campaigns.mlink
 comment_queue = MongoClient(CONNECTION_STRING_MGA1).campaigns.comment_queue
 keywords = MongoClient(CONNECTION_STRING_MGA1).campaigns.mlinkkeywords
 
@@ -106,7 +113,7 @@ def process_content(article, url):
                         image["srcset"] = "http://" + domain + image["srcset"]
                         src_img.append(image["srcset"])
         except Exception as e:
-            print(e)
+            logger.error(e)
 
     thumb = None
     if len(src_img) > 0:
@@ -116,7 +123,7 @@ def process_content(article, url):
                 if ".PNG" in thumb or ".JPG" in thumb:
                     break
         except Exception as e:
-            print(e)
+            logger.error(e)
             pass
     if url["campaign"]["Top10url"]:
         if len(url["campaign"]["Top10url"]) > 0:
@@ -195,14 +202,14 @@ def process_content(article, url):
                 try:
                     thep[len(thep) - 4].append(internal_link_p_tag2)
                 except Exception as e:
-                    print(e)
+                    logger.error(e)
                     pass
 
             self_link_p_tag = BeautifulSoup(self_link_p_tag, "html.parser")
             try:
                 thep[min(len(thep), 3)].append(self_link_p_tag)
             except Exception as e:
-                print(e)
+                logger.error(e)
                 pass
         else:
             if internal_link and internal_link_title:
@@ -212,7 +219,7 @@ def process_content(article, url):
                 try:
                     thep[int(len(thep) / 2)].append(internal_link_p_tag1)
                 except Exception as e:
-                    print(e)
+                    logger.error(e)
                     pass
 
             self_link_p_tag = '<div style="margin-bottom:15px;margin-top:15px;"><p style="padding: 20px; background: #eaf0ff;">Reading: <a target="_blank" href="{}" rel="bookmark" title="{}">{}</a> </p></div>'.format(
@@ -271,7 +278,7 @@ def process_content(article, url):
             for i in url["web_info"]["Text_replace_doc"].keys():
                 paper = paper.replace(i, url["web_info"]["Text_replace_doc"][i])
     except Exception as e:
-        print(e)
+        logger.error(e)
         pass
     content = {
         "user": url,
@@ -324,7 +331,7 @@ def rest_image_url(website, user, password, url_img):
                         new_id = res.get('id')
                         return new_id
         except Exception as e:
-            print(e)
+            logger.error(e)
             return None
 
 
@@ -370,7 +377,7 @@ def import_content(content, keyword, anchor_text):
                     "created_at": datetime.datetime.now()
                 })
         except Exception as e:
-            print(e)
+            logger.error(e)
     if res is not None:
         print(res)
         print(post["slug"])
