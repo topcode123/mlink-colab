@@ -19,10 +19,10 @@ from newspaper import urls
 
 from newspaper.cleaners import DocumentCleaner
 from newspaper.configuration import Configuration
-#from newspaper.extractors import ContentExtractor
+# from newspaper.extractors import ContentExtractor
 from newspaper.outputformatters import OutputFormatter
 from newspaper.utils import (URLHelper, RawHelper, extend_config,
-                    get_available_languages, extract_meta_refresh)
+                             get_available_languages, extract_meta_refresh)
 from newspaper.videos.extractors import VideoExtractor
 from extract import ContentExtractor
 
@@ -45,6 +45,7 @@ class ArticleException(Exception):
 class Article(object):
     """Article objects abstract an online news article page
     """
+
     def __init__(self, url, title='', source_url='', config=None, **kwargs):
         """The **kwargs argument may be filled with config values, which
         is added into the config object
@@ -174,8 +175,8 @@ class Article(object):
             except requests.exceptions.RequestException as e:
                 self.download_state = ArticleDownloadState.FAILED_RESPONSE
                 self.download_exception_msg = str(e)
-                log.error('Download failed on URL %s because of %s' %
-                          (self.url, self.download_exception_msg))
+                print('Download failed on URL %s because of %s' %
+                      (self.url, self.download_exception_msg))
                 return
         else:
             html = input_html
@@ -309,30 +310,30 @@ class Article(object):
 
         if (meta_type == 'article' and len(wordcount) >
                 (self.config.MIN_WORD_COUNT)):
-            log.debug('%s verified for article and wc' % self.url)
+            print('%s verified for article and wc' % self.url)
             return True
 
         if not self.is_media_news() and not self.text:
-            log.debug('%s caught for no media no text' % self.url)
+            print('%s caught for no media no text' % self.url)
             return False
 
         if self.title is None or len(self.title.split(' ')) < 2:
-            log.debug('%s caught for bad title' % self.url)
+            print('%s caught for bad title' % self.url)
             return False
 
         if len(wordcount) < self.config.MIN_WORD_COUNT:
-            log.debug('%s caught for word cnt' % self.url)
+            print('%s caught for word cnt' % self.url)
             return False
 
         if len(sentcount) < self.config.MIN_SENT_COUNT:
-            log.debug('%s caught for sent cnt' % self.url)
+            print('%s caught for sent cnt' % self.url)
             return False
 
         if self.html is None or self.html == '':
-            log.debug('%s caught for no html' % self.url)
+            print('%s caught for no html' % self.url)
             return False
 
-        log.debug('%s verified for default true' % self.url)
+        print('%s verified for default true' % self.url)
         return True
 
     def is_media_news(self):
@@ -409,9 +410,9 @@ class Article(object):
             self.set_top_img(s.largest_image_url())
         except TypeError as e:
             if "Can't convert 'NoneType' object to str implicitly" in e.args[0]:
-                log.debug('No pictures found. Top image not set, %s' % e)
+                print('No pictures found. Top image not set, %s' % e)
             elif 'timed out' in e.args[0]:
-                log.debug('Download of picture timed out. Top image not set, %s' % e)
+                print('Download of picture timed out. Top image not set, %s' % e)
             else:
                 log.critical('TypeError other than None type error. '
                              'Cannot set top image using the Reddit '
@@ -494,7 +495,7 @@ class Article(object):
         """Save langauges in their ISO 2-character form
         """
         if meta_lang and len(meta_lang) >= 2 and \
-           meta_lang in get_available_languages():
+                meta_lang in get_available_languages():
             self.meta_lang = meta_lang[:2]
 
     def set_meta_keywords(self, meta_keywords):
@@ -531,7 +532,7 @@ class Article(object):
             raise ArticleException('You must `download()` an article first!')
         elif self.download_state == ArticleDownloadState.FAILED_RESPONSE:
             raise ArticleException('Article `download()` failed with %s on URL %s' %
-                  (self.download_exception_msg, self.url))
+                                   (self.download_exception_msg, self.url))
 
     def throw_if_not_parsed_verbose(self):
         """Parse `is_parsed` status -> log readable status

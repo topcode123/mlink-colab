@@ -178,7 +178,8 @@ def ColabSimple():
                                     web.replace_with(replace_attr(web, 'data-lazy-srcset', 'srcset'))
                                     web.replace_with(replace_attr(web, 'lazy-srcset', 'srcset'))
                                     web.replace_with(replace_attr(web, 'data-original', 'src'))
-                                except:
+                                except Exception as e:
+                                    print(e)
                                     pass
                                 try:
                                     liii = re.findall("lazy.*=\".*\"", str(web))
@@ -189,6 +190,7 @@ def ColabSimple():
                                                 web["src"] = hhh
                                                 break
                                 except Exception as e:
+                                    print(e)
                                     traceback.print_exc()
                             soups = str(soups)
                             article = Article("", keep_article_html=True, config=config)
@@ -203,12 +205,14 @@ def ColabSimple():
                                             {"link": a[0]["link"]})
                                         break
                                 except Exception as e:
+                                    print(e)
                                     traceback.print_exc()
                             if total_web == 20:
                                 mlink_keywords.update_one(
                                     {"_id": ObjectId(keyword["keyword"]["_id"])}, {"$set": {"status": "fail"}})
                                 break
                         except Exception as e:
+                            print(e)
                             traceback.print_exc()
         except Exception as e:
             print(e)
