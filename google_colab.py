@@ -120,8 +120,10 @@ def ColabSimple():
                                         traceback.print_exc()
                                 soups = str(soups)
                                 article = Article("", keep_article_html=True, config=config)
+                                print(soups)
                                 article.download(soups)
                                 article.parse()
+                                print("parse done")
                                 if len(article.text.split(" ")) > 400 and (
                                         "content=\"vi_" in article.html or "lang=\"vi\"" in article.html):
                                     try:
