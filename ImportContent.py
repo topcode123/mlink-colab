@@ -61,7 +61,7 @@ def process_content(article, url):
     article.article_html = str(html.unescape(article.article_html))
 
     soup = BeautifulSoup(article.article_html, 'html.parser')
-    self_url = str(no_accent_vietnamese(url["keyword"]["Keyword"].replace("\r", ""))) + ' ' + \
+    self_url = str(no_accent_vietnamese(url["keyword"]["keyword"].replace("\r", ""))) + ' ' + \
                str(time.time()).split(".")[0]
     self_url = self_url.replace(" ", "-")
     self_url = self_url.replace("--", "-")
@@ -239,7 +239,7 @@ def process_content(article, url):
         nguon = BeautifulSoup(nguon, "html.parser")
 
     paper.append(nguon)
-    listp = [{"ptag": m, "keywords": url["keyword"]["Keyword"], "language": url["campaign"]["language"]} for m in
+    listp = [{"ptag": m, "keywords": url["keyword"]["keyword"], "language": url["campaign"]["language"]} for m in
              paper.find_all("p")]
     resultp = []
     for i in listp:
