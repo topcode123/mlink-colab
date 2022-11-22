@@ -85,7 +85,6 @@ def ColabSimple():
 
                             a = [{"link": web, "campaign": keyword["campaign"], "web_info": keyword["web_info"],
                                   "keyword": keyword["keyword"]}]
-                            print(a)
                             config = Configuration()
                             config.set_language("vi")
                             config.request_timeout = 10
