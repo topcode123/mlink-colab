@@ -26,6 +26,9 @@ from newspaper.utils import (URLHelper, RawHelper, extend_config,
 from newspaper.videos.extractors import VideoExtractor
 from extract import ContentExtractor
 
+logging.basicConfig(format='%(asctime)s,%(msecs)03d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
+                    datefmt='%Y-%m-%d:%H:%M:%S',
+                    level=logging.INFO)
 log = logging.getLogger(__name__)
 
 
@@ -171,13 +174,11 @@ class Article(object):
             except requests.exceptions.RequestException as e:
                 self.download_state = ArticleDownloadState.FAILED_RESPONSE
                 self.download_exception_msg = str(e)
-                log.debug('Download failed on URL %s because of %s' %
+                log.error('Download failed on URL %s because of %s' %
                           (self.url, self.download_exception_msg))
-                print(e)
                 return
         else:
             html = input_html
-        print(html)
         if self.config.follow_meta_refresh:
             meta_refresh_url = extract_meta_refresh(html)
             if meta_refresh_url and recursion_counter < 1:
