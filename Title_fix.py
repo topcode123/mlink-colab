@@ -173,6 +173,7 @@ class Article(object):
             try:
                 html = network.get_html_2XX_only(self.url, self.config)
             except requests.exceptions.RequestException as e:
+                print(e)
                 self.download_state = ArticleDownloadState.FAILED_RESPONSE
                 self.download_exception_msg = str(e)
                 print('Download failed on URL %s because of %s' %
