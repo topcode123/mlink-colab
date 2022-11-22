@@ -66,25 +66,26 @@ def ColabSimple():
     if queue_keywords.count_documents({}) > 0:
         try:
             keyword = queue_keywords.find_one_and_delete({})
-            print("key word: ", keyword)
+            print("key word: ", keyword["keyword"])
             if keyword:
                 if keyword["campaign"]["language"] == "vi":
                     try:
-                        h = 0
+                        total_web = 0
                         for web in search(keyword["keyword"]["keyword"], tld="com.vn", start=0, num=20, stop=20,
                                           pause=1,
                                           user_agent=random.choice(userAgents), lang="vi", country="vn"):
                             web = web.split("#")[0]
 
-                            h = h + 1
+                            total_web = total_web + 1
                             if client1.urldone[str(keyword["web_info"]["_id"])].count_documents({"link": web}) > 0:
                                 continue
                             domain = urlparse(web).netloc
                             if domain in keyword["web_info"]["Blacklist"]:
                                 continue
+
                             a = [{"link": web, "campaign": keyword["campaign"], "web_info": keyword["web_info"],
                                   "keyword": keyword["keyword"]}]
-
+                            print(a)
                             config = Configuration()
                             config.set_language("vi")
                             config.request_timeout = 10
@@ -93,6 +94,7 @@ def ColabSimple():
                             try:
                                 r = requests.get(a[0]["link"], verify=False, timeout=10, headers=headers).content
                                 r = r.decode("utf-8")
+                                print("download content")
                                 soups = BeautifulSoup(r)
                                 img = soups.find_all("img")
                                 for web in img:
@@ -116,6 +118,7 @@ def ColabSimple():
                                                     web["src"] = hhh
                                                     break
                                     except Exception as e:
+                                        print(e)
                                         traceback.print_exc()
                                 soups = str(soups)
                                 article = Article("", keep_article_html=True, config=config)
@@ -124,14 +127,16 @@ def ColabSimple():
                                 if len(article.text.split(" ")) > 400 and (
                                         "content=\"vi_" in article.html or "lang=\"vi\"" in article.html):
                                     try:
+                                        # todo: get content
                                         done = get_contents(article, a[0])
                                         if done:
                                             client1.urldone[str(keyword["web_info"]["_id"])].insert_one(
                                                 {"link": a[0]["link"]})
                                             break
                                     except Exception as e:
+                                        print(e)
                                         traceback.print_exc()
-                                if h == 20:
+                                if total_web == 20:
                                     mlink_keywords.update_one(
                                         {"_id": ObjectId(keyword["keyword"]["_id"])}, {"$set": {"status": "fail"}})
                                     break
@@ -141,11 +146,11 @@ def ColabSimple():
                     except Exception as e:
                         print(str(e))
                 else:
-                    h = 0
+                    total_web = 0
                     for web in search(keyword["keyword"]["keyword"], tld="com", start=0, num=20, stop=20, pause=1,
                                       user_agent=random.choice(userAgents), lang="en"):
                         web = web.split("#")[0]
-                        h = h + 1
+                        total_web = total_web + 1
                         if client1.urldone[str(keyword["web_info"]["_id"])].count_documents({"link": web}) > 0:
                             continue
                         domain = urlparse(web).netloc
@@ -199,7 +204,7 @@ def ColabSimple():
                                         break
                                 except Exception as e:
                                     traceback.print_exc()
-                            if h == 20:
+                            if total_web == 20:
                                 mlink_keywords.update_one(
                                     {"_id": ObjectId(keyword["keyword"]["_id"])}, {"$set": {"status": "fail"}})
                                 break
