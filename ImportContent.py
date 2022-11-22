@@ -58,6 +58,7 @@ def replace_attr(soup, from_attr: str, to_attr: str):
 
 
 def process_content(article, url):
+    print("process content")
     article.article_html = str(html.unescape(article.article_html))
 
     soup = BeautifulSoup(article.article_html, 'html.parser')
@@ -114,7 +115,8 @@ def process_content(article, url):
                 thumb = random.choice(src_img)
                 if ".PNG" in thumb or ".JPG" in thumb:
                     break
-        except:
+        except Exception as e:
+            print(e)
             pass
     if url["campaign"]["Top10url"]:
         if len(url["campaign"]["Top10url"]) > 0:
@@ -192,13 +194,15 @@ def process_content(article, url):
                 internal_link_p_tag2 = BeautifulSoup(internal_link_p_tag2, "html.parser")
                 try:
                     thep[len(thep) - 4].append(internal_link_p_tag2)
-                except:
+                except Exception as e:
+                    print(e)
                     pass
 
             self_link_p_tag = BeautifulSoup(self_link_p_tag, "html.parser")
             try:
                 thep[min(len(thep), 3)].append(self_link_p_tag)
-            except:
+            except Exception as e:
+                print(e)
                 pass
         else:
             if internal_link and internal_link_title:
@@ -207,7 +211,8 @@ def process_content(article, url):
                 internal_link_p_tag1 = BeautifulSoup(internal_link_p_tag1, "html.parser")
                 try:
                     thep[int(len(thep) / 2)].append(internal_link_p_tag1)
-                except:
+                except Exception as e:
+                    print(e)
                     pass
 
             self_link_p_tag = '<div style="margin-bottom:15px;margin-top:15px;"><p style="padding: 20px; background: #eaf0ff;">Reading: <a target="_blank" href="{}" rel="bookmark" title="{}">{}</a> </p></div>'.format(
@@ -265,7 +270,8 @@ def process_content(article, url):
         if len(url["web_info"]["Text_replace_doc"].keys()) > 0:
             for i in url["web_info"]["Text_replace_doc"].keys():
                 paper = paper.replace(i, url["web_info"]["Text_replace_doc"][i])
-    except:
+    except Exception as e:
+        print(e)
         pass
     content = {
         "user": url,
@@ -318,7 +324,7 @@ def rest_image_url(website, user, password, url_img):
                         new_id = res.get('id')
                         return new_id
         except Exception as e:
-            print(str(e))
+            print(e)
             return None
 
 
@@ -349,6 +355,7 @@ def import_content(content, keyword, anchor_text):
         'slug': content['slug']
     }
 
+    print("post artical")
     with requests.post(website, headers=header, json=post, verify=False) as response:
         res = response.status_code
         try:
@@ -363,7 +370,7 @@ def import_content(content, keyword, anchor_text):
                     "created_at": datetime.datetime.now()
                 })
         except Exception as e:
-            print(str(e))
+            print(e)
     if res is not None:
         print(res)
         print(post["slug"])

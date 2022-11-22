@@ -128,6 +128,7 @@ def ColabSimple():
                                         "content=\"vi_" in article.html or "lang=\"vi\"" in article.html):
                                     try:
                                         # todo: get content
+                                        print("get content")
                                         done = get_contents(article, a[0])
                                         if done:
                                             client1.urldone[str(keyword["web_info"]["_id"])].insert_one(
@@ -141,6 +142,7 @@ def ColabSimple():
                                         {"_id": ObjectId(keyword["keyword"]["_id"])}, {"$set": {"status": "fail"}})
                                     break
                             except Exception as e:
+                                print(e)
                                 traceback.print_exc()
 
                     except Exception as e:
