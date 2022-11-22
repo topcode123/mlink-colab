@@ -177,7 +177,7 @@ class Article(object):
                 return
         else:
             html = input_html
-
+        print(html)
         if self.config.follow_meta_refresh:
             meta_refresh_url = extract_meta_refresh(html)
             if meta_refresh_url and recursion_counter < 1:
