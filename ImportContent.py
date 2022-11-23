@@ -139,13 +139,16 @@ def process_content(article, url):
         internal_link2 = None
         internal_link_title2 = None
 
-    if url["campaign"]["CategoryId"] is not None and url["campaign"]["CategoryName"] is not None and url["campaign"][
-        "CategoryLink"] is not None:
-        cate_name = url["campaign"]["CategoryName"]
-        cate_link = url["campaign"]["CategoryLink"]
-    else:
-        cate_name = None
-        cate_link = None
+    # todo: temporary comment for debugging
+    # if url["campaign"]["CategoryId"] is not None and url["campaign"]["CategoryName"] is not None and url["campaign"][
+    #     "CategoryLink"] is not None:
+    #     cate_name = url["campaign"]["CategoryName"]
+    #     cate_link = url["campaign"]["CategoryLink"]
+    # else:
+    #     cate_name = None
+    #     cate_link = None
+    cate_name = None
+    cate_link = None
     article.article_html = str(soup)
     paper = html.unescape(article.article_html)
     paper = BeautifulSoup(paper, "html.parser")
