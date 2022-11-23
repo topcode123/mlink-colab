@@ -356,11 +356,11 @@ def import_content(content, keyword, anchor_text):
     token = base64.b64encode(credentials.encode())
     header = {'Authorization': 'Basic ' + token.decode('utf-8'), 'Content-Type': 'application/json',
               'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'}
+    # todo: temporary delete category
     post = {
         'status': 'publish',
         "title": content["title"],
         "content": content["content"],
-        'categories': "blog",
         'featured_media': int(idthump),
         'slug': content['slug']
     }
