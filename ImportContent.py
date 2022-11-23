@@ -296,7 +296,7 @@ def process_content(article, url):
     return content
 
 
-def rest_image_url(website, user, password, url_img):
+def rest_image_url(website, user, password, url_img, src_img):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
         # This is another valid field
@@ -397,7 +397,7 @@ def import_content(content, keyword, anchor_text):
 
         campaign_root.update_one({"_id": ObjectId(content['user']["campaign"]["_id"])},
                                  {"$set": {"Top10url": url["Top10url"]}})
-        keywords[content['user']['campaign']["WebsiteId"]].update_one(
+        keywords.update_one(
             {"_id": ObjectId(content['user']["keyword"]["_id"])},
             {"$set": {"status": "done", "link": content['user']["web_info"]["Website"] + "/" + post['slug']}})
     return True
