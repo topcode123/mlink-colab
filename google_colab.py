@@ -73,14 +73,19 @@ def ColabSimple():
                     try:
                         print("language viet nam")
                         total_web = 0
-                        for web in search(keyword["keyword"]["keyword"], tld="com.vn", start=0, num=20, stop=20,
+                        list_web = search(keyword["keyword"]["keyword"], tld="com.vn", start=0, num=20, stop=20,
                                           pause=1,
-                                          user_agent=random.choice(userAgents), lang="vi", country="vn"):
+                                          user_agent=random.choice(userAgents), lang="vi", country="vn")
+                        print(len(list_web))
+                        for web in list_web:
                             web = web.split("#")[0]
                             total_web = total_web + 1
                             if client1.urldone[str(keyword["web_info"]["_id"])].count_documents({"link": web}) > 0:
                                 continue
+                            print("new url")
                             domain = urlparse(web).netloc
+                            print(f"domain: {domain}")
+                            print(domain in keyword["web_info"]["Blacklist"])
                             if domain in keyword["web_info"]["Blacklist"]:
                                 continue
 
@@ -90,7 +95,7 @@ def ColabSimple():
                             config.set_language("vi")
                             config.request_timeout = 10
                             config.browser_user_agent = random.choice(userAgents)
-
+                            print(f"web object process: {a}")
                             try:
                                 r = requests.get(a[0]["link"], verify=False, timeout=10, headers=headers).content
                                 r = r.decode("utf-8")
