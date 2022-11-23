@@ -123,6 +123,8 @@ def ColabSimple():
                                 article.download(soups)
                                 article.parse()
                                 print("parse done")
+                                print(f'len(article.text.split(" ")) > 400: {len(article.text.split(" ")) > 400}')
+                                print("content=\"vi_" in article.html or "lang=\"vi\"" in article.html)
                                 if len(article.text.split(" ")) > 400 and (
                                         "content=\"vi_" in article.html or "lang=\"vi\"" in article.html):
                                     try:

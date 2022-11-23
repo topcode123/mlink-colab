@@ -181,6 +181,7 @@ class Article(object):
                 return
         else:
             html = input_html
+        print(f"self.config.follow_meta_refresh: {self.config.follow_meta_refresh}")
         if self.config.follow_meta_refresh:
             meta_refresh_url = extract_meta_refresh(html)
             if meta_refresh_url and recursion_counter < 1:
@@ -434,6 +435,8 @@ class Article(object):
     def set_html(self, html):
         """Encode HTML before setting it
         """
+        print(f"isinstance(html, bytes): {isinstance(html, bytes)}")
+        print(f"html is not None: {html is not None}")
         if html:
             if isinstance(html, bytes):
                 html = self.config.get_parser().get_unicode_html(html)
