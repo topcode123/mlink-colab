@@ -76,7 +76,7 @@ def ColabSimple():
                         list_web = search(keyword["keyword"]["keyword"], tld="com.vn", start=0, num=20, stop=20,
                                           pause=1,
                                           user_agent=random.choice(userAgents), lang="vi", country="vn")
-                        print(len(list_web))
+                        print(list_web)
                         for web in list_web:
                             web = web.split("#")[0]
                             total_web = total_web + 1
@@ -154,7 +154,7 @@ def ColabSimple():
                                 traceback.print_exc()
 
                     except Exception as e:
-                        print(str(e))
+                        print(e)
                 else:
                     total_web = 0
                     for web in search(keyword["keyword"]["keyword"], tld="com", start=0, num=20, stop=20, pause=1,
