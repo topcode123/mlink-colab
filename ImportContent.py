@@ -408,5 +408,5 @@ def get_contents(article, url):
     print("url data: ", url)
     anchor_text = url["campaign"]["listAnchorText"][0]
     content = import_content(content_process, url["keyword"], anchor_text)
-
+    print("-----------------------------------------------------------------------------------------------------------")
     return content
