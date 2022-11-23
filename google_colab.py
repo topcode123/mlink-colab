@@ -68,8 +68,10 @@ def ColabSimple():
             keyword = queue_keywords.find_one_and_delete({})
             print("key word: ", keyword["keyword"])
             if keyword:
+                print("key word not none")
                 if keyword["campaign"]["language"] == "vi":
                     try:
+                        print("language viet nam")
                         total_web = 0
                         for web in search(keyword["keyword"]["keyword"], tld="com.vn", start=0, num=20, stop=20,
                                           pause=1,
