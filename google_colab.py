@@ -78,6 +78,7 @@ def ColabSimple():
                                           user_agent=random.choice(userAgents), lang="vi", country="vn")
                         print(list_web)
                         for web in list_web:
+                            print(web)
                             web = web.split("#")[0]
                             total_web = total_web + 1
                             if client1.urldone[str(keyword["web_info"]["_id"])].count_documents({"link": web}) > 0:
