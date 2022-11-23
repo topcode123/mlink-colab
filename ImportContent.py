@@ -351,8 +351,8 @@ def import_content(content, keyword, anchor_text):
     content["content"] = content["content"].replace("Bất động sản", "")
     content["content"] = content["content"].replace("bất động sản", "")
     # find keyword and replace anchor text for test
-    print(f"{keyword} ---- {anchor_text}")
-    content["content"] = content.get("content").replace(str(keyword), anchor_text)
+    print(f"{keyword['keyword']} ---- {anchor_text}")
+    content["content"] = content.get("content").replace(str(keyword["keyword"]), anchor_text)
     credentials = user + ':' + password
     token = base64.b64encode(credentials.encode())
     header = {'Authorization': 'Basic ' + token.decode('utf-8'), 'Content-Type': 'application/json',
