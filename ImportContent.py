@@ -360,7 +360,7 @@ def import_content(content, keyword, anchor_text):
         'status': 'publish',
         "title": content["title"],
         "content": content["content"],
-        'categories': content["category"],
+        'categories': "blog",
         'featured_media': int(idthump),
         'slug': content['slug']
     }
