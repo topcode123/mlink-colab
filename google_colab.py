@@ -66,6 +66,7 @@ def ColabSimple():
     if queue_keywords.count_documents({}) > 0:
         try:
             keyword = queue_keywords.find_one_and_delete({})
+            print("--------------------------------------------------------------------------------------------")
             print("key word: ", keyword["keyword"])
             if keyword:
                 print("key word not none")
