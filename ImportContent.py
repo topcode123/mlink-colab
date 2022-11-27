@@ -339,7 +339,7 @@ def rest_image_url(website, user, password, url_img, src_img):
 
 
 def replace_nth(string, sub, wanted, n):
-    where = [m.start() for m in re.finditer(sub, string)][n-1]
+    where = [m.start() for m in re.finditer(sub, string, re.IGNORECASE)][n-1]
     before = string[:where]
     after = string[where:]
     after = after.replace(sub, wanted, 1)
@@ -361,7 +361,11 @@ def import_content(content, keyword, anchor_text):
     # find keyword and replace anchor text for test
     print(f"{keyword['keyword']} ---- {anchor_text}")
     anchor_link = f"""<a href='{keyword["campaign"]["urlBase"]}'>{anchor_text}</a>"""
-    content["content"] = content.get("content").replace(str(keyword["keyword"]), anchor_link, 1)
+
+    pattern = re.compile(str(keyword["keyword"]), re.IGNORECASE)
+    content["content"] = pattern.sub(anchor_link, content["content"], 1)
+    # content["content"] = content.get("content").replace(str(keyword["keyword"]), anchor_link, 1)
+
     credentials = user + ':' + password
     token = base64.b64encode(credentials.encode())
     header = {'Authorization': 'Basic ' + token.decode('utf-8'), 'Content-Type': 'application/json',
