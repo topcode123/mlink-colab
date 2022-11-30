@@ -53,7 +53,7 @@ userAgents = [
     'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.83 Safari/537.1']
 queue_keywords = client1.queuekeywords.mlink
 url = client1.url_test.data
-mlink_keywords = client1.campaigns.mlinkkeywords
+# mlink_keywords = client1.campaigns.mlinkkeywords
 colab_status = client1.colabstatus.data
 
 headers = {
@@ -74,10 +74,9 @@ def ColabSimple():
                     try:
                         print("language viet nam")
                         total_web = 0
-                        list_web = search(keyword["keyword"]["keyword"], tld="com.vn", start=0, num=20, stop=20,
+                        list_web = search(keyword["keyword"], tld="com.vn", start=0, num=20, stop=20,
                                           pause=1,
                                           user_agent=random.choice(userAgents), lang="vi", country="vn")
-                        print(list_web)
                         for web in list_web:
                             print(web)
                             web = web.split("#")[0]
@@ -91,8 +90,13 @@ def ColabSimple():
                             if domain in keyword["web_info"]["Blacklist"]:
                                 continue
 
-                            a = [{"link": web, "campaign": keyword["campaign"], "web_info": keyword["web_info"],
-                                  "keyword": keyword["keyword"]}]
+                            a = [{
+                                "link": web,
+                                "web_info": keyword["web_info"],
+                                "keyword": keyword["keyword"],
+                                "anchortext": keyword["anchortext"],
+                                "baseUrl": keyword["baseURL"]
+                            }]
                             config = Configuration()
                             config.set_language("vi")
                             config.request_timeout = 10
@@ -131,13 +135,14 @@ def ColabSimple():
                                 article = Article("", keep_article_html=True, config=config)
                                 article.download(soups)
                                 article.parse()
+
                                 print("parse done")
                                 print(f'len(article.text.split(" ")) > 400: {len(article.text.split(" ")) > 400}')
                                 print("content=\"vi_" in article.html or "lang=\"vi\"" in article.html)
+
                                 if len(article.text.split(" ")) > 400 and (
                                         "content=\"vi_" in article.html or "lang=\"vi\"" in article.html):
                                     try:
-                                        # todo: get content
                                         print("get content")
                                         done = get_contents(article, a[0])
                                         if done:
@@ -148,8 +153,9 @@ def ColabSimple():
                                         print(e)
                                         traceback.print_exc()
                                 if total_web == 20:
-                                    mlink_keywords.update_one(
-                                        {"_id": ObjectId(keyword["keyword"]["_id"])}, {"$set": {"status": "fail"}})
+                                    # todo: update status fail
+                                    # mlink_keywords.update_one(
+                                    #     {"_id": ObjectId(keyword["keyword"]["_id"])}, {"$set": {"status": "fail"}})
                                     break
                             except Exception as e:
                                 print(e)
@@ -220,8 +226,9 @@ def ColabSimple():
                                     print(e)
                                     traceback.print_exc()
                             if total_web == 20:
-                                mlink_keywords.update_one(
-                                    {"_id": ObjectId(keyword["keyword"]["_id"])}, {"$set": {"status": "fail"}})
+                                # todo: update status fail
+                                # mlink_keywords.update_one(
+                                #     {"_id": ObjectId(keyword["keyword"]["_id"])}, {"$set": {"status": "fail"}})
                                 break
                         except Exception as e:
                             print(e)

@@ -69,7 +69,7 @@ def process_content(article, url):
     article.article_html = str(html.unescape(article.article_html))
 
     soup = BeautifulSoup(article.article_html, 'html.parser')
-    self_url = str(no_accent_vietnamese(url["keyword"]["keyword"].replace("\r", ""))) + ' ' + \
+    self_url = str(no_accent_vietnamese(url["keyword"].replace("\r", ""))) + ' ' + \
                str(time.time()).split(".")[0]
     self_url = self_url.replace(" ", "-")
     self_url = self_url.replace("--", "-")
@@ -382,45 +382,46 @@ def import_content(content, keyword, anchor_text):
     print("post artical")
     with requests.post(website, headers=header, json=post, verify=False) as response:
         res = response.status_code
-        try:
-            campaign = campaign_root.find_one({"_id": ObjectId(content['user']["campaign"]["_id"])})
-            if campaign.get("isautocomment") is True and len(campaign["listlinkyoutube"]) > 0:
-                response_body = response.json(encoding="utf-8")
-                comment_queue.insert_one({
-                    "id": response_body.get("id"),
-                    "guid": response_body.get("guid"),
-                    "campaign_id": content['user']["campaign"]["_id"],
-                    "status": response.status_code,
-                    "created_at": datetime.datetime.now()
-                })
-        except Exception as e:
-            print(e)
+        # try:
+            # campaign = campaign_root.find_one({"_id": ObjectId(content['user']["campaign"]["_id"])})
+            # if campaign.get("isautocomment") is True and len(campaign["listlinkyoutube"]) > 0:
+            #     response_body = response.json(encoding="utf-8")
+            #     comment_queue.insert_one({
+            #         "id": response_body.get("id"),
+            #         "guid": response_body.get("guid"),
+            #         "campaign_id": content['user']["campaign"]["_id"],
+            #         "status": response.status_code,
+            #         "created_at": datetime.datetime.now()
+            #     })
+        # except Exception as e:
+        #     print(e)
     if res is not None:
         print(res)
         print(post["slug"])
-        url = content['user']["campaign"]
-        if not url["Top10url"]:
-            url["Top10url"] = [
-                {"link": content['user']["web_info"]["Website"] + "/" + post['slug'], "name": content["title"]}]
-        elif len(url["Top10url"]) < 10:
-            url["Top10url"].append(
-                {"link": content['user']["web_info"]["Website"] + "/" + post['slug'], "name": content["title"]})
-        else:
-            url["Top10url"] = [{"link": content['user']["web_info"]["Website"] + "/" + post['slug'],
-                                "name": content["title"]}] + url["Top10url"][1:10]
-
-        campaign_root.update_one({"_id": ObjectId(content['user']["campaign"]["_id"])},
-                                 {"$set": {"Top10url": url["Top10url"]}})
-        keywords.update_one(
-            {"_id": ObjectId(content['user']["keyword"]["_id"])},
-            {"$set": {"status": "done", "link": content['user']["web_info"]["Website"] + "/" + post['slug']}})
+        # url = content['user']["campaign"]
+        # if not url["Top10url"]:
+        #     url["Top10url"] = [
+        #         {"link": content['user']["web_info"]["Website"] + "/" + post['slug'], "name": content["title"]}]
+        # elif len(url["Top10url"]) < 10:
+        #     url["Top10url"].append(
+        #         {"link": content['user']["web_info"]["Website"] + "/" + post['slug'], "name": content["title"]})
+        # else:
+        #     url["Top10url"] = [{"link": content['user']["web_info"]["Website"] + "/" + post['slug'],
+        #                         "name": content["title"]}] + url["Top10url"][1:10]
+        #
+        # campaign_root.update_one({"_id": ObjectId(content['user']["campaign"]["_id"])},
+        #                          {"$set": {"Top10url": url["Top10url"]}})
+        # keywords.update_one(
+        #     {"_id": ObjectId(content['user']["keyword"]["_id"])},
+        #     {"$set": {"status": "done", "link": content['user']["web_info"]["Website"] + "/" + post['slug']}})
+    #     todo: update status of keyword
     return True
 
 
 def get_contents(article, url):
     content_process = process_content(article, url)
     print("url data: ", url)
-    anchor_text = url["campaign"]["listAnchorText"][0]
+    anchor_text = url["anchortext"]
     content = import_content(content_process, url["keyword"], anchor_text)
     print("-----------------------------------------------------------------------------------------------------------")
     return content
