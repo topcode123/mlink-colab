@@ -70,7 +70,7 @@ def ColabSimple():
             print("key word: ", keyword["keyword"])
             if keyword:
                 print("key word not none")
-                if keyword["campaign"]["language"] == "vi":
+                if keyword["language"] == "vi":
                     try:
                         print("language viet nam")
                         total_web = 0
