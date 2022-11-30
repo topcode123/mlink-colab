@@ -95,7 +95,8 @@ def ColabSimple():
                                 "web_info": keyword["web_info"],
                                 "keyword": keyword["keyword"],
                                 "anchortext": keyword["anchortext"],
-                                "baseUrl": keyword["baseURL"]
+                                "baseUrl": keyword["baseURL"],
+                                "language": keyword["language"],
                             }]
                             config = Configuration()
                             config.set_language("vi")
