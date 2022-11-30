@@ -125,19 +125,23 @@ def process_content(article, url):
         except Exception as e:
             print(e)
             pass
-    if url["campaign"]["Top10url"]:
-        if len(url["campaign"]["Top10url"]) > 0:
-            internal_link_total = random.choice(url["campaign"]["Top10url"])
-            internal_link = internal_link_total["link"]
-            internal_link_title = internal_link_total["name"]
-            internal_link_total2 = random.choice(url["campaign"]["Top10url"])
-            internal_link2 = internal_link_total2["link"]
-            internal_link_title2 = internal_link_total2["name"]
-    else:
-        internal_link = None
-        internal_link_title = None
-        internal_link2 = None
-        internal_link_title2 = None
+    # if url["campaign"]["Top10url"]:
+    #     if len(url["campaign"]["Top10url"]) > 0:
+    #         internal_link_total = random.choice(url["campaign"]["Top10url"])
+    #         internal_link = internal_link_total["link"]
+    #         internal_link_title = internal_link_total["name"]
+    #         internal_link_total2 = random.choice(url["campaign"]["Top10url"])
+    #         internal_link2 = internal_link_total2["link"]
+    #         internal_link_title2 = internal_link_total2["name"]
+    # else:
+    #     internal_link = None
+    #     internal_link_title = None
+    #     internal_link2 = None
+    #     internal_link_title2 = None
+    internal_link = None
+    internal_link_title = None
+    internal_link2 = None
+    internal_link_title2 = None
 
     # todo: temporary comment for debugging
     # if url["campaign"]["CategoryId"] is not None and url["campaign"]["CategoryName"] is not None and url["campaign"][
@@ -185,7 +189,7 @@ def process_content(article, url):
         if i not in heading_p:
             thep.append(i)
 
-    if len(url["campaign"]["Top10url"]) > 0:
+    if "campaign" in url and len(url["campaign"]["Top10url"]) > 0:
         if url["campaign"]["language"] == "vi":
             if internal_link and internal_link_title:
                 internal_link_p_tag1 = '<div style="margin-bottom:15px;margin-top:15px;"><p style="padding: 20px; background: #eaf0ff;">Xem thêm: <a target="_blank" href="{}" rel="bookmark" title="{}">{}</a> </p></div>'.format(
@@ -254,7 +258,7 @@ def process_content(article, url):
         nguon = BeautifulSoup(nguon, "html.parser")
 
     paper.append(nguon)
-    listp = [{"ptag": m, "keywords": url["keyword"]["keyword"], "language": url["campaign"]["language"]} for m in
+    listp = [{"ptag": m, "keywords": url["keyword"], "language": url["language"]} for m in
              paper.find_all("p")]
     resultp = []
     for i in listp:
