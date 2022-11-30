@@ -350,7 +350,7 @@ def replace_nth(string, sub, wanted, n):
     return before + after
 
 
-def import_content(content, keyword, anchor_text):
+def import_content(content, keyword, anchor_text, base_url):
     cl = content['user']["web_info"]
     website = cl["WebsitePost"]
     websiteimg = cl["Website"] + "/wp-json/wp/v2/media"
@@ -363,8 +363,8 @@ def import_content(content, keyword, anchor_text):
     content["content"] = content["content"].replace("Bất động sản", "")
     content["content"] = content["content"].replace("bất động sản", "")
     # find keyword and replace anchor text for test
-    print(f"{keyword['keyword']} ---- {anchor_text}")
-    anchor_link = f"""<a href='{keyword["campaign"]["urlBase"]}'>{anchor_text}</a>"""
+    print(f"{keyword} ---- {anchor_text}")
+    anchor_link = f"""<a href='{base_url}'>{anchor_text}</a>"""
 
     pattern = re.compile(str(keyword["keyword"]), re.IGNORECASE)
     content["content"] = pattern.sub(anchor_link, content["content"], 1)
@@ -426,6 +426,6 @@ def get_contents(article, url):
     content_process = process_content(article, url)
     print("url data: ", url)
     anchor_text = url["anchortext"]
-    content = import_content(content_process, url["keyword"], anchor_text)
+    content = import_content(content_process, url["keyword"], anchor_text, url["baseUrl"])
     print("-----------------------------------------------------------------------------------------------------------")
     return content
