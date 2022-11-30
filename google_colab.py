@@ -66,12 +66,13 @@ def ColabSimple():
     if queue_keywords.count_documents({}) > 0:
         try:
             keyword = queue_keywords.find_one_and_delete({})
-            print("--------------------------------------------------------------------------------------------")
             print("key word: ", keyword["keyword"])
             if keyword:
                 print("key word not none")
                 if keyword["language"] == "vi":
                     try:
+                        print(
+                            "--------------------------------------------------------------------------------------------")
                         print("language viet nam")
                         total_web = 0
                         list_web = search(keyword["keyword"], tld="com.vn", start=0, num=20, stop=20,
