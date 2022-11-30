@@ -366,7 +366,7 @@ def import_content(content, keyword, anchor_text, base_url):
     print(f"{keyword} ---- {anchor_text}")
     anchor_link = f"""<a href='{base_url}'>{anchor_text}</a>"""
 
-    pattern = re.compile(str(keyword["keyword"]), re.IGNORECASE)
+    pattern = re.compile(str(keyword), re.IGNORECASE)
     content["content"] = pattern.sub(anchor_link, content["content"], 1)
     # content["content"] = content.get("content").replace(str(keyword["keyword"]), anchor_link, 1)
 
