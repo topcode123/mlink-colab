@@ -365,9 +365,11 @@ def import_content(content, keyword, anchor_text, base_url):
     # find keyword and replace anchor text for test
     print(f"{keyword} ---- {anchor_text}")
     anchor_link = f"""<a href='{base_url}'>{anchor_text}</a>"""
-    print(f"re.match(str(keyword), content, re.IGNORECASE): {re.match(str(keyword), content['content'], re.IGNORECASE)}")
-    pattern = re.compile(str(keyword), re.IGNORECASE)
-    content["content"] = pattern.sub(anchor_link, content["content"], 1)
+    if re.search(str(keyword), content["content"], re.IGNORECASE):
+        pattern = re.compile(str(keyword), re.IGNORECASE)
+        content["content"] = pattern.sub(anchor_link, content["content"], 1)
+    else:
+        raise "not found keyword in content"
     # content["content"] = content.get("content").replace(str(keyword["keyword"]), anchor_link, 1)
 
     credentials = user + ':' + password
