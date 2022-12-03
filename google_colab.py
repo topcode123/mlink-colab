@@ -167,27 +167,43 @@ def ColabSimple():
                     except Exception as e:
                         print(e)
                 else:
+                    print("language english")
                     total_web = 0
-                    for web in search(keyword["keyword"]["keyword"], tld="com", start=0, num=20, stop=20, pause=1,
-                                      user_agent=random.choice(userAgents), lang="en"):
+                    list_web = search(keyword["keyword"], tld="com.vn", start=0, num=20, stop=20,
+                                      pause=1,
+                                      user_agent=random.choice(userAgents), lang="en", country="vn")
+                    for web in list_web:
+                        print(
+                            "--------------------------------------------------------------------------------------------")
+                        print(web)
                         web = web.split("#")[0]
                         total_web = total_web + 1
                         if client1.urldone[str(keyword["web_info"]["_id"])].count_documents({"link": web}) > 0:
                             continue
+                        print("new url")
                         domain = urlparse(web).netloc
+                        print(f"domain: {domain}")
+                        print(domain in keyword["web_info"]["Blacklist"])
                         if domain in keyword["web_info"]["Blacklist"]:
                             continue
-                        a = [{"link": web, "campaign": keyword["campaign"], "web_info": keyword["web_info"],
-                              "keyword": keyword["keyword"]}]
 
+                        a = [{
+                            "link": web,
+                            "web_info": keyword["web_info"],
+                            "keyword": keyword["keyword"],
+                            "anchortext": keyword["anchortext"],
+                            "baseUrl": keyword["baseURL"],
+                            "language": keyword["language"],
+                        }]
                         config = Configuration()
+                        config.set_language("vi")
                         config.request_timeout = 10
                         config.browser_user_agent = random.choice(userAgents)
-
+                        print(f"web object process: {a}")
                         try:
                             r = requests.get(a[0]["link"], verify=False, timeout=10, headers=headers).content
                             r = r.decode("utf-8")
-
+                            print("download content")
                             soups = BeautifulSoup(r)
                             img = soups.find_all("img")
                             for web in img:
@@ -199,9 +215,9 @@ def ColabSimple():
                                     web.replace_with(replace_attr(web, 'data-lazy-srcset', 'srcset'))
                                     web.replace_with(replace_attr(web, 'lazy-srcset', 'srcset'))
                                     web.replace_with(replace_attr(web, 'data-original', 'src'))
-                                except Exception as e:
-                                    print(e)
+                                except:
                                     pass
+
                                 try:
                                     liii = re.findall("lazy.*=\".*\"", str(web))
                                     if len(liii) > 0:
@@ -217,9 +233,15 @@ def ColabSimple():
                             article = Article("", keep_article_html=True, config=config)
                             article.download(soups)
                             article.parse()
+
+                            print("parse done")
+                            print(f'len(article.text.split(" ")) > 400: {len(article.text.split(" ")) > 400}')
+                            print("content=\"vi_" in article.html or "lang=\"vi\"" in article.html)
+
                             if len(article.text.split(" ")) > 400 and (
-                                    "content=\"en_" in article.html or "lang=\"en\"" in article.html):
+                                    "content=\"vi_" in article.html or "lang=\"vi\"" in article.html):
                                 try:
+                                    print("get content")
                                     done = get_contents(article, a[0])
                                     if done:
                                         client1.urldone[str(keyword["web_info"]["_id"])].insert_one(
