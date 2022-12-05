@@ -428,7 +428,7 @@ def import_content(content, keyword_object):
     #     todo: update status of keyword
         keyword_object["status"] = "success"
         keyword_object["post_url"] = f'{keyword_object["web_info"]["Website"]}/{post["slug"]}'
-        mlink_report_posts.insert_one({keyword_object})
+        mlink_report_posts.insert_one(keyword_object)
     return True
 
 

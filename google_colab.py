@@ -168,7 +168,7 @@ def ColabSimple():
                                     # mlink_keywords.update_one(
                                     #     {"_id": ObjectId(keyword["keyword"]["_id"])}, {"$set": {"status": "fail"}})
                                     keyword_object[0]["status"] = "failed"
-                                    mlink_report_posts.insert_one({keyword_object[0]})
+                                    mlink_report_posts.insert_one(keyword_object[0])
                                     break
                             except Exception as e:
                                 print(e)
@@ -267,7 +267,7 @@ def ColabSimple():
                                 # mlink_keywords.update_one(
                                 #     {"_id": ObjectId(keyword["keyword"]["_id"])}, {"$set": {"status": "fail"}})
                                 keyword_object[0]["status"] = "failed"
-                                mlink_report_posts.insert_one({keyword_object[0]})
+                                mlink_report_posts.insert_one(keyword_object[0])
                                 break
                         except Exception as e:
                             print(e)
