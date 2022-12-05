@@ -1,4 +1,5 @@
 # This is added so that many files can reuse the function get_database()
+import datetime
 import traceback
 
 from bson import ObjectId
@@ -55,6 +56,8 @@ queue_keywords = client1.queuekeywords.mlink
 url = client1.url_test.data
 # mlink_keywords = client1.campaigns.mlinkkeywords
 colab_status = client1.colabstatus.data
+mlink_url_done = client1.campaigns.mlinkurldone
+mlink_report_posts = client1.campaigns.mlinkreportposts
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
@@ -68,6 +71,7 @@ def ColabSimple():
             keyword = queue_keywords.find_one_and_delete({})
             print("key word: ", keyword["keyword"])
             if keyword:
+                today = datetime.datetime.today().strftime('%Y-%m-%d')
                 print("key word not none")
                 if keyword["language"] == "vi":
                     try:
@@ -92,21 +96,24 @@ def ColabSimple():
                             if domain in keyword["web_info"]["Blacklist"]:
                                 continue
 
-                            a = [{
+                            keyword_object = [{
                                 "link": web,
                                 "web_info": keyword["web_info"],
                                 "keyword": keyword["keyword"],
                                 "anchortext": keyword["anchortext"],
                                 "baseUrl": keyword["baseURL"],
                                 "language": keyword["language"],
+                                "campaign_id": keyword["campaign_id"],
+                                "date": today,
+                                "post_url": ""
                             }]
                             config = Configuration()
                             config.set_language("vi")
                             config.request_timeout = 10
                             config.browser_user_agent = random.choice(userAgents)
-                            print(f"web object process: {a}")
+                            print(f"web object process: {keyword_object}")
                             try:
-                                r = requests.get(a[0]["link"], verify=False, timeout=10, headers=headers).content
+                                r = requests.get(keyword_object[0]["link"], verify=False, timeout=10, headers=headers).content
                                 r = r.decode("utf-8")
                                 print("download content")
                                 soups = BeautifulSoup(r)
@@ -147,10 +154,11 @@ def ColabSimple():
                                         "content=\"vi_" in article.html or "lang=\"vi\"" in article.html):
                                     try:
                                         print("get content")
-                                        done = get_contents(article, a[0])
+                                        done = get_contents(article, keyword_object[0])
                                         if done:
                                             client1.urldone[str(keyword["web_info"]["_id"])].insert_one(
-                                                {"link": a[0]["link"]})
+                                                {"link": keyword_object[0]["link"]})
+                                            print(f"done --------> {done}")
                                             break
                                     except Exception as e:
                                         print(e)
@@ -159,6 +167,8 @@ def ColabSimple():
                                     # todo: update status fail
                                     # mlink_keywords.update_one(
                                     #     {"_id": ObjectId(keyword["keyword"]["_id"])}, {"$set": {"status": "fail"}})
+                                    keyword_object[0]["status"] = "failed"
+                                    mlink_report_posts.insert_one({keyword_object[0]})
                                     break
                             except Exception as e:
                                 print(e)
@@ -187,21 +197,23 @@ def ColabSimple():
                         if domain in keyword["web_info"]["Blacklist"]:
                             continue
 
-                        a = [{
+                        keyword_object = [{
                             "link": web,
                             "web_info": keyword["web_info"],
                             "keyword": keyword["keyword"],
                             "anchortext": keyword["anchortext"],
                             "baseUrl": keyword["baseURL"],
                             "language": keyword["language"],
+                            "campaign_id": keyword["campaign_id"],
+                            "date": today,
+                            "post_url": ""
                         }]
                         config = Configuration()
-                        config.set_language("vi")
                         config.request_timeout = 10
                         config.browser_user_agent = random.choice(userAgents)
-                        print(f"web object process: {a}")
+                        print(f"web object process: {keyword_object}")
                         try:
-                            r = requests.get(a[0]["link"], verify=False, timeout=10, headers=headers).content
+                            r = requests.get(keyword_object[0]["link"], verify=False, timeout=10, headers=headers).content
                             r = r.decode("utf-8")
                             print("download content")
                             soups = BeautifulSoup(r)
@@ -242,10 +254,10 @@ def ColabSimple():
                                     "content=\"vi_" in article.html or "lang=\"vi\"" in article.html):
                                 try:
                                     print("get content")
-                                    done = get_contents(article, a[0])
+                                    done = get_contents(article, keyword_object[0])
                                     if done:
                                         client1.urldone[str(keyword["web_info"]["_id"])].insert_one(
-                                            {"link": a[0]["link"]})
+                                            {"link": keyword_object[0]["link"]})
                                         break
                                 except Exception as e:
                                     print(e)
@@ -254,6 +266,8 @@ def ColabSimple():
                                 # todo: update status fail
                                 # mlink_keywords.update_one(
                                 #     {"_id": ObjectId(keyword["keyword"]["_id"])}, {"$set": {"status": "fail"}})
+                                keyword_object[0]["status"] = "failed"
+                                mlink_report_posts.insert_one({keyword_object[0]})
                                 break
                         except Exception as e:
                             print(e)

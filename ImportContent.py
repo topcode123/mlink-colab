@@ -49,6 +49,7 @@ config = Config()
 campaign_root = MongoClient(CONNECTION_STRING_MGA1).campaigns.mlink
 comment_queue = MongoClient(CONNECTION_STRING_MGA1).campaigns.comment_queue
 keywords = MongoClient(CONNECTION_STRING_MGA1).campaigns.mlinkkeywords
+mlink_report_posts = MongoClient(CONNECTION_STRING_MGA1).campaigns.mlinkreportposts
 
 contentExtractor = ContentExtractor(config)
 from bs4 import BeautifulSoup
@@ -343,14 +344,18 @@ def rest_image_url(website, user, password, url_img, src_img):
 
 
 def replace_nth(string, sub, wanted, n):
-    where = [m.start() for m in re.finditer(sub, string, re.IGNORECASE)][n-1]
+    where = [m.start() for m in re.finditer(sub, string, re.IGNORECASE)][n - 1]
     before = string[:where]
     after = string[where:]
     after = after.replace(sub, wanted, 1)
     return before + after
 
 
-def import_content(content, keyword, anchor_text, base_url):
+def import_content(content, keyword_object):
+    keyword = keyword_object["keyword"]
+    anchor_text = keyword_object["anchortext"]
+    base_url = keyword_object["baseUrl"]
+
     cl = content['user']["web_info"]
     website = cl["WebsitePost"]
     websiteimg = cl["Website"] + "/wp-json/wp/v2/media"
@@ -389,16 +394,16 @@ def import_content(content, keyword, anchor_text, base_url):
     with requests.post(website, headers=header, json=post, verify=False) as response:
         res = response.status_code
         # try:
-            # campaign = campaign_root.find_one({"_id": ObjectId(content['user']["campaign"]["_id"])})
-            # if campaign.get("isautocomment") is True and len(campaign["listlinkyoutube"]) > 0:
-            #     response_body = response.json(encoding="utf-8")
-            #     comment_queue.insert_one({
-            #         "id": response_body.get("id"),
-            #         "guid": response_body.get("guid"),
-            #         "campaign_id": content['user']["campaign"]["_id"],
-            #         "status": response.status_code,
-            #         "created_at": datetime.datetime.now()
-            #     })
+        # campaign = campaign_root.find_one({"_id": ObjectId(content['user']["campaign"]["_id"])})
+        # if campaign.get("isautocomment") is True and len(campaign["listlinkyoutube"]) > 0:
+        #     response_body = response.json(encoding="utf-8")
+        #     comment_queue.insert_one({
+        #         "id": response_body.get("id"),
+        #         "guid": response_body.get("guid"),
+        #         "campaign_id": content['user']["campaign"]["_id"],
+        #         "status": response.status_code,
+        #         "created_at": datetime.datetime.now()
+        #     })
         # except Exception as e:
         #     print(e)
     if res is not None:
@@ -421,13 +426,16 @@ def import_content(content, keyword, anchor_text, base_url):
         #     {"_id": ObjectId(content['user']["keyword"]["_id"])},
         #     {"$set": {"status": "done", "link": content['user']["web_info"]["Website"] + "/" + post['slug']}})
     #     todo: update status of keyword
+        keyword_object["status"] = "success"
+        keyword_object["post_url"] = f'{keyword_object["web_info"]["Website"]}/{post["slug"]}'
+        mlink_report_posts.insert_one({keyword_object})
     return True
 
 
-def get_contents(article, url):
-    content_process = process_content(article, url)
-    print("url data: ", url)
-    anchor_text = url["anchortext"]
-    content = import_content(content_process, url["keyword"], anchor_text, url["baseUrl"])
+def get_contents(article, keyword_object):
+    content_process = process_content(article, keyword_object)
+    print("url data: ", keyword_object)
+
+    content = import_content(content_process, keyword_object)
     print("-----------------------------------------------------------------------------------------------------------")
     return content
