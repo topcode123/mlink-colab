@@ -167,6 +167,7 @@ def ColabSimple():
                                     # todo: update status fail
                                     # mlink_keywords.update_one(
                                     #     {"_id": ObjectId(keyword["keyword"]["_id"])}, {"$set": {"status": "fail"}})
+                                    print("process failed")
                                     keyword_object[0]["status"] = "failed"
                                     mlink_report_posts.insert_one(keyword_object[0])
                                     break
@@ -266,6 +267,7 @@ def ColabSimple():
                                 # todo: update status fail
                                 # mlink_keywords.update_one(
                                 #     {"_id": ObjectId(keyword["keyword"]["_id"])}, {"$set": {"status": "fail"}})
+                                print("process failed")
                                 keyword_object[0]["status"] = "failed"
                                 mlink_report_posts.insert_one(keyword_object[0])
                                 break
