@@ -147,6 +147,7 @@ def ColabSimple():
                                 article.parse()
 
                                 print("parse done")
+                                print(article.text)
                                 print(f'len(article.text.split(" ")) > 400: {len(article.text.split(" ")) > 400}')
                                 print("content=\"vi_" in article.html or "lang=\"vi\"" in article.html)
 
