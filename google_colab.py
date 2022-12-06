@@ -2,6 +2,7 @@
 import datetime
 import traceback
 
+import pytz
 from bson import ObjectId
 from bs4 import BeautifulSoup
 from ImportContent import get_contents
@@ -63,7 +64,7 @@ headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
     # This is another valid field
 }
-
+TIME_ZONE_VIET_NAM = pytz.timezone("Asia/Jakarta")
 
 def ColabSimple():
     if queue_keywords.count_documents({}) > 0:
@@ -71,7 +72,7 @@ def ColabSimple():
             keyword = queue_keywords.find_one_and_delete({})
             print("key word: ", keyword["keyword"])
             if keyword:
-                today = datetime.datetime.today().strftime('%Y-%m-%d')
+                today = int(datetime.datetime.today().astimezone(TIME_ZONE_VIET_NAM).timestamp())
                 print("key word not none")
                 if keyword["language"] == "vi":
                     try:
