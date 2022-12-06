@@ -17,7 +17,7 @@ from requests import get
 import time
 import re
 
-filename = get('http://172.28.0.2:9000/api/sessions').json()[0]['name']
+# filename = get('http://172.28.0.2:9000/api/sessions').json()[0]['name']
 
 
 def get_database():
