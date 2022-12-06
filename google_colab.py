@@ -284,13 +284,13 @@ def ColabSimple():
 while True:
 
     while True:
-        if time.time() - lasttime > 100:
-            colab_status.replace_one({'may': filename}, {'may': filename, 'lasttimeupdate': time.time()}, True)
-            lasttime = time.time()
-        cancle = False
+        # if time.time() - lasttime > 100:
+        #     colab_status.replace_one({'may': filename}, {'may': filename, 'lasttimeupdate': time.time()}, True)
+        #     lasttime = time.time()
+        # cancle = False
         ColabSimple()
         ColabSupport()
         # except Exception as e:
-        if cancle:
-            break
+        # if cancle:
+        #     break
             # print(h)
