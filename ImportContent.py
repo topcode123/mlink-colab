@@ -374,7 +374,16 @@ def import_content(content, keyword_object):
         pattern = re.compile(str(keyword), re.IGNORECASE)
         content["content"] = pattern.sub(anchor_link, content["content"], 1)
     else:
-        raise "not found keyword in content"
+        list_word = str(keyword).split(" ")
+        count = 0
+        for word in list_word:
+            if re.search(word, content["content"], re.IGNORECASE):
+                pattern = re.compile(word, re.IGNORECASE)
+                content["content"] = pattern.sub(anchor_link, content["content"], 1)
+            else:
+                count += 1
+        if count == len(list_word):
+            raise "not found keyword in content"
     # content["content"] = content.get("content").replace(str(keyword["keyword"]), anchor_link, 1)
 
     credentials = user + ':' + password
@@ -425,7 +434,7 @@ def import_content(content, keyword_object):
         # keywords.update_one(
         #     {"_id": ObjectId(content['user']["keyword"]["_id"])},
         #     {"$set": {"status": "done", "link": content['user']["web_info"]["Website"] + "/" + post['slug']}})
-    #     todo: update status of keyword
+        #     todo: update status of keyword
         keyword_object["status"] = "success"
         keyword_object["post_url"] = f'{keyword_object["web_info"]["Website"]}/{post["slug"]}'
         mlink_report_posts.insert_one(keyword_object)
