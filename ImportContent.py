@@ -368,10 +368,11 @@ def import_content(content, keyword_object):
     content["content"] = content["content"].replace("Bất động sản", "")
     content["content"] = content["content"].replace("bất động sản", "")
     # find keyword and replace anchor text for test
-    print(f"{keyword} ---- {anchor_text}")
+
     anchor_link = f"""<a href='{base_url}'>{anchor_text}</a>"""
     if re.search(str(keyword), content["content"], re.IGNORECASE):
         pattern = re.compile(str(keyword), re.IGNORECASE)
+        print(f"{keyword} ---- {anchor_text}")
         content["content"] = pattern.sub(anchor_link, content["content"], 1)
     else:
         list_word = str(keyword).split(" ")
@@ -380,6 +381,8 @@ def import_content(content, keyword_object):
             if re.search(word, content["content"], re.IGNORECASE):
                 pattern = re.compile(word, re.IGNORECASE)
                 content["content"] = pattern.sub(anchor_link, content["content"], 1)
+                print(f"{word} ---- {anchor_text}")
+                break
             else:
                 count += 1
         if count == len(list_word):
