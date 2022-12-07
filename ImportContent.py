@@ -376,16 +376,16 @@ def import_content(content, keyword_object):
         content["content"] = pattern.sub(anchor_link, content["content"], 1)
     else:
         list_word = str(keyword).split(" ")
-        count = 0
+        found = False
         for word in list_word:
             if re.search(word, content["content"], re.IGNORECASE):
                 pattern = re.compile(word, re.IGNORECASE)
                 content["content"] = pattern.sub(anchor_link, content["content"], 1)
                 print(f"{word} ---- {anchor_text}")
+                found = True
                 break
-            else:
-                count += 1
-        if count == len(list_word):
+
+        if found is False:
             raise "not found keyword in content"
     # content["content"] = content.get("content").replace(str(keyword["keyword"]), anchor_link, 1)
 
