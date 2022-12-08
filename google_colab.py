@@ -252,8 +252,7 @@ def ColabSimple():
                             print(f'len(article.text.split(" ")) >= 300: {len(article.text.split(" ")) >= 300}')
                             print("content=\"vi_" in article.html or "lang=\"vi\"" in article.html)
 
-                            if len(article.text.split(" ")) >= 300 and (
-                                    "content=\"vi_" in article.html or "lang=\"vi\"" in article.html):
+                            if len(article.text.split(" ")) >= 300 and ("content=\"en_" in article.html or "lang=\"en\"" in article.html):
                                 try:
                                     print("get content")
                                     done = get_contents(article, keyword_object[0])
