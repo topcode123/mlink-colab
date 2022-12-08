@@ -375,9 +375,11 @@ def import_content(content, keyword_object):
         print(f"{keyword} ---- {anchor_text}")
         content["content"] = pattern.sub(anchor_link, content["content"], 1)
     else:
+        anchor_link = f"{anchor_link} "
         list_word = str(keyword).split(" ")
         found = False
         for word in list_word:
+            word = f"{word} "
             if re.search(word, content["content"], re.IGNORECASE):
                 pattern = re.compile(word, re.IGNORECASE)
                 content["content"] = pattern.sub(anchor_link, content["content"], 1)
