@@ -149,11 +149,11 @@ def ColabSimple():
 
                                 print("parse done")
                                 print(f'len(article.text.split(" ")) >= 300: {len(article.text.split(" "))} : {len(article.text.split(" ")) >= 300}')
-                                print(article.html)
                                 print("content=\"vi_" in article.html or "lang=\"vi\"" in article.html)
 
-                                if len(article.text.split(" ")) >= 300 and (
-                                        "content=\"vi_" in article.html or "lang=\"vi\"" in article.html):
+                                # if len(article.text.split(" ")) >= 300 and (
+                                #         "content=\"vi_" in article.html or "lang=\"vi\"" in article.html):
+                                if len(article.text.split(" ")) >= 300:
                                     try:
                                         print("get content")
                                         done = get_contents(article, keyword_object[0])
@@ -251,7 +251,7 @@ def ColabSimple():
 
                             print("parse done")
                             print(f'len(article.text.split(" ")) >= 300 : {len(article.text.split(" "))} : {len(article.text.split(" ")) >= 300}')
-                            print("content=\"vi_" in article.html or "lang=\"vi\"" in article.html)
+                            print("content=\"en_" in article.html or "lang=\"en\"" in article.html)
 
                             if len(article.text.split(" ")) >= 300 and ("content=\"en_" in article.html or "lang=\"en\"" in article.html):
                                 try:
