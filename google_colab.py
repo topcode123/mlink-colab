@@ -88,8 +88,13 @@ def ColabSimple():
                             print(web)
                             web = web.split("#")[0]
                             total_web = total_web + 1
+
                             if client1.urldone[str(keyword["web_info"]["_id"])].count_documents({"link": web}) > 0:
                                 continue
+
+                            if mlink_url_done.count_documents({"link": web}) > 0:
+                                continue
+
                             print("new url")
                             domain = urlparse(web).netloc
                             print(f"domain: {domain}")
@@ -160,6 +165,11 @@ def ColabSimple():
                                         if done:
                                             client1.urldone[str(keyword["web_info"]["_id"])].insert_one(
                                                 {"link": keyword_object[0]["link"]})
+                                            mlink_url_done_object = {
+                                                "website": keyword["web_info"]["_id"],
+                                                "link": keyword_object[0]["link"]
+                                            }
+                                            mlink_url_done.insert_one(mlink_url_done_object)
                                             print(f"done --------> {done}")
                                             break
                                     except Exception as e:
@@ -193,6 +203,10 @@ def ColabSimple():
                         total_web = total_web + 1
                         if client1.urldone[str(keyword["web_info"]["_id"])].count_documents({"link": web}) > 0:
                             continue
+
+                        if mlink_url_done.count_documents({"link": web}) > 0:
+                            continue
+
                         print("new url")
                         domain = urlparse(web).netloc
                         print(f"domain: {domain}")
@@ -260,6 +274,11 @@ def ColabSimple():
                                     if done:
                                         client1.urldone[str(keyword["web_info"]["_id"])].insert_one(
                                             {"link": keyword_object[0]["link"]})
+                                        mlink_url_done_object = {
+                                            "website": keyword["web_info"]["_id"],
+                                            "link": keyword_object[0]["link"]
+                                        }
+                                        mlink_url_done.insert_one(mlink_url_done_object)
                                         break
                                 except Exception as e:
                                     print(e)
