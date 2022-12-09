@@ -91,7 +91,7 @@ def ColabSimple():
 
                             if client1.urldone[str(keyword["web_info"]["_id"])].count_documents({"link": web}) > 0:
                                 continue
-
+                            print("check mlink url done")
                             if mlink_url_done.count_documents({"link": web}) > 0:
                                 continue
 
@@ -204,6 +204,7 @@ def ColabSimple():
                         if client1.urldone[str(keyword["web_info"]["_id"])].count_documents({"link": web}) > 0:
                             continue
 
+                        print("check mlink url done")
                         if mlink_url_done.count_documents({"link": web}) > 0:
                             continue
 
