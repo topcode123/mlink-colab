@@ -149,6 +149,7 @@ def ColabSimple():
 
                                 print("parse done")
                                 print(f'len(article.text.split(" ")) >= 300: {len(article.text.split(" "))} : {len(article.text.split(" ")) >= 300}')
+                                print(article.html)
                                 print("content=\"vi_" in article.html or "lang=\"vi\"" in article.html)
 
                                 if len(article.text.split(" ")) >= 300 and (
