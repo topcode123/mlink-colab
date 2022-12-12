@@ -8,3 +8,4 @@ underthesea
 nltk
 openai
 pytz
+Unidecode
