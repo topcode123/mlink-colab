@@ -310,7 +310,7 @@ while True:
         #     lasttime = time.time()
         # cancle = False
         ColabSimple()
-        ColabSupport()
+        # ColabSupport()
         # except Exception as e:
         # if cancle:
         #     break
