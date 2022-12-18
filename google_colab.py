@@ -151,7 +151,7 @@ def ColabSimple():
                                 article = Article("", keep_article_html=True, config=config)
                                 article.download(soups)
                                 article.parse()
-                                print(article)
+                                print(article.text)
 
                                 print("parse done")
                                 print(f'len(article.text.split(" ")) >= 300: {len(article.text.split(" "))} : {len(article.text.split(" ")) >= 300}')
