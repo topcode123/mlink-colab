@@ -264,12 +264,17 @@ def process_content(article, url):
     listp = []
     is_replaced = False
     for p_tag in paper.find_all("p"):
-        print(type(p_tag))
+        print("***************")
+        print(p_tag.text)
         keyword = url["keyword"]
         anchor_text = url["anchortext"]
         base_url = url["baseUrl"]
         if is_replaced is False:
-            is_replaced = replace_anchortext(anchor_text, base_url, str(p_tag), keyword)
+            text_replaced = replace_anchortext(anchor_text, base_url, str(p_tag), keyword)
+            if text_replaced:
+                p_tag.replace_with(text_replaced)
+                print(p_tag.text)
+                is_replaced = True
         listp.append({"ptag": p_tag, "keywords": url["keyword"], "language": url["language"]})
 
     resultp = []
@@ -445,7 +450,7 @@ def replace_anchortext(anchor_text, base_url, content, keyword):
         print(f"{keyword} ---- {anchor_text}")
         content = pattern.sub(anchor_link, content, 1)
         print(content)
-        return True
+        return content
     else:
         anchor_link = f"{anchor_link} "
         list_word = str(keyword).split(" ")
@@ -461,9 +466,9 @@ def replace_anchortext(anchor_text, base_url, content, keyword):
                 break
 
         if found is False:
-            return False
+            return None
         else:
-            return True
+            return content
 
 
 
