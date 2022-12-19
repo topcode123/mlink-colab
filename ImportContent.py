@@ -259,11 +259,18 @@ def process_content(article, url):
         nguon = BeautifulSoup(nguon, "html.parser")
 
     paper.append(nguon)
-    listp = [{"ptag": m, "keywords": url["keyword"], "language": url["language"]} for m in
-             paper.find_all("p")]
-
+    # listp = [{"ptag": m, "keywords": url["keyword"], "language": url["language"]} for m in
+    #          paper.find_all("p")]
+    listp = []
+    is_replaced = False
     for p_tag in paper.find_all("p"):
         print(p_tag)
+        keyword = url["keyword"]
+        anchor_text = url["anchortext"]
+        base_url = url["baseUrl"]
+        if is_replaced is False:
+            is_replaced = replace_anchortext(anchor_text, base_url, p_tag, keyword)
+        listp.append({"ptag": p_tag, "keywords": url["keyword"], "language": url["language"]})
 
     resultp = []
     for i in listp:
@@ -373,25 +380,7 @@ def import_content(content, keyword_object):
     content["content"] = content["content"].replace("bất động sản", "")
     # find keyword and replace anchor text for test
 
-    anchor_link = f"""<a href='{base_url}'>{anchor_text}</a>"""
-    if re.search(str(keyword), content["content"], re.IGNORECASE):
-        pattern = re.compile(str(keyword), re.IGNORECASE)
-        print(f"{keyword} ---- {anchor_text}")
-        content["content"] = pattern.sub(anchor_link, content["content"], 1)
-    else:
-        anchor_link = f"{anchor_link} "
-        list_word = str(keyword).split(" ")
-        found = False
-        for word in list_word:
-            if re.search(word, content["content"], re.IGNORECASE):
-                pattern = re.compile(word, re.IGNORECASE)
-                content["content"] = pattern.sub(anchor_link, content["content"], 1)
-                print(f"{word} ---- {anchor_text}")
-                found = True
-                break
-
-        if found is False:
-            raise "not found keyword in content"
+    # replace_anchortext(anchor_text, base_url, content, keyword)
     # content["content"] = content.get("content").replace(str(keyword["keyword"]), anchor_link, 1)
 
     credentials = user + ':' + password
@@ -447,6 +436,32 @@ def import_content(content, keyword_object):
         keyword_object["post_url"] = f'{keyword_object["web_info"]["Website"]}/{post["slug"]}'
         mlink_report_posts.insert_one(keyword_object)
     return True
+
+
+def replace_anchortext(anchor_text, base_url, content, keyword):
+    anchor_link = f"""<a href='{base_url}'>{anchor_text}</a>"""
+    if re.search(str(keyword), content["content"], re.IGNORECASE):
+        pattern = re.compile(str(keyword), re.IGNORECASE)
+        print(f"{keyword} ---- {anchor_text}")
+        content["content"] = pattern.sub(anchor_link, content["content"], 1)
+        return True
+    else:
+        anchor_link = f"{anchor_link} "
+        list_word = str(keyword).split(" ")
+        found = False
+        for word in list_word:
+            if re.search(word, content["content"], re.IGNORECASE):
+                pattern = re.compile(word, re.IGNORECASE)
+                content["content"] = pattern.sub(anchor_link, content["content"], 1)
+                print(f"{word} ---- {anchor_text}")
+                found = True
+                break
+
+        if found is False:
+            return False
+        else:
+            return True
+
 
 
 def get_contents(article, keyword_object):
