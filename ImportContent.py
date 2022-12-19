@@ -271,12 +271,6 @@ def process_content(article, url):
         base_url = url["baseUrl"]
         if (
                 is_replaced is False
-                and p_tag.parent.name != "h1"
-                and p_tag.parent.name != "h2"
-                and p_tag.parent.name != "h3"
-                and p_tag.parent.name != "h4"
-                and p_tag.parent.name != "h5"
-                and p_tag.parent.name != "h6"
         ):
             text_replaced = replace_anchortext(anchor_text, base_url, str(p_tag), keyword)
             if text_replaced:
