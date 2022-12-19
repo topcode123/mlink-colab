@@ -399,6 +399,7 @@ def import_content(content, keyword_object):
         'status': 'publish',
         "title": content["title"],
         "content": content["content"],
+        'categories': content["category"],
         'featured_media': int(idthump),
         'slug': content['slug']
     }
