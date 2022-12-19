@@ -310,7 +310,7 @@ def process_content(article, url):
         "user": url,
         "title": article.title,
         "content": str(paper),
-        # "category": url["campaign"]["CategoryId"],
+        "category": url["category"],
         "url_img": thumb,
         "src_img": src_img,
         "slug": self_url

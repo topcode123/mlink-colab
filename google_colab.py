@@ -111,7 +111,8 @@ def ColabSimple():
                                 "language": keyword["language"],
                                 "campaign_id": keyword["campaign_id"],
                                 "date": today,
-                                "post_url": ""
+                                "post_url": "",
+                                "category": keyword["category"]
                             }]
                             config = Configuration()
                             config.set_language("vi")
@@ -224,7 +225,8 @@ def ColabSimple():
                             "language": keyword["language"],
                             "campaign_id": keyword["campaign_id"],
                             "date": today,
-                            "post_url": ""
+                            "post_url": "",
+                            "category": keyword["category"]
                         }]
                         config = Configuration()
                         config.request_timeout = 10
