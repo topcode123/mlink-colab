@@ -264,30 +264,30 @@ def process_content(article, url):
     listp = []
     is_replaced = False
     for p_tag in paper.find_all("p"):
-        # print("***************")
-        # print(p_tag.text)
-        # keyword = url["keyword"]
-        # anchor_text = url["anchortext"]
-        # base_url = url["baseUrl"]
-        # if is_replaced is False:
-        #     text_replaced = replace_anchortext(anchor_text, base_url, str(p_tag), keyword)
-        #     if text_replaced:
-        #         p_tag.replace_with(text_replaced)
-        #         print(p_tag.text)
-        #         is_replaced = True
-        listp.append({"ptag": p_tag, "keywords": url["keyword"], "language": url["language"]})
+        print("***************")
+        print(p_tag.text)
+        keyword = url["keyword"]
+        anchor_text = url["anchortext"]
+        base_url = url["baseUrl"]
+        if is_replaced is False:
+            text_replaced = replace_anchortext(anchor_text, base_url, str(p_tag), keyword)
+            if text_replaced:
+                p_tag.replace_with(text_replaced)
+                print(p_tag.text)
+                is_replaced = True
+        # listp.append({"ptag": p_tag, "keywords": url["keyword"], "language": url["language"]})
 
-    resultp = []
-    for i in listp:
-        if i["language"] == "vi":
-            resultp.append(spinService.spin_paragraph(i["ptag"], i["keywords"]))
-        else:
-            resultp.append(spinService.spin_paragraph_en(i["ptag"], i["keywords"]))
-
-    for k1, k2 in zip(listp, resultp):
-        print(k1)
-        print(k2)
-        k1["ptag"].replace_with(k2)
+    # resultp = []
+    # for i in listp:
+    #     if i["language"] == "vi":
+    #         resultp.append(spinService.spin_paragraph(i["ptag"], i["keywords"]))
+    #     else:
+    #         resultp.append(spinService.spin_paragraph_en(i["ptag"], i["keywords"]))
+    #
+    # for k1, k2 in zip(listp, resultp):
+    #     print(k1)
+    #     print(k2)
+    #     k1["ptag"].replace_with(k2)
     paper = str(paper)
     paper = paper.replace("&lt;", "<")
     paper = paper.replace("&gt;", ">")
