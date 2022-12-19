@@ -185,10 +185,10 @@ def process_content(article, url):
         for p in heading.find_all("p"):
             heading_p.append(p)
     thepp = paper.find_all('p')
-    thep = []
+    list_p_tag = []
     for i in thepp:
         if i not in heading_p:
-            thep.append(i)
+            list_p_tag.append(i)
 
     if "campaign" in url and len(url["campaign"]["Top10url"]) > 0:
         if url["campaign"]["language"] == "vi":
@@ -197,7 +197,7 @@ def process_content(article, url):
                     internal_link, internal_link_title, internal_link_title)
                 internal_link_p_tag1 = BeautifulSoup(internal_link_p_tag1, "html.parser")
                 try:
-                    thep[int(len(thep) / 2)].append(internal_link_p_tag1)
+                    list_p_tag[int(len(list_p_tag) / 2)].append(internal_link_p_tag1)
                 except:
                     pass
 
@@ -208,14 +208,14 @@ def process_content(article, url):
                     internal_link2, internal_link_title2, internal_link_title2)
                 internal_link_p_tag2 = BeautifulSoup(internal_link_p_tag2, "html.parser")
                 try:
-                    thep[len(thep) - 4].append(internal_link_p_tag2)
+                    list_p_tag[len(list_p_tag) - 4].append(internal_link_p_tag2)
                 except Exception as e:
                     print(e)
                     pass
 
             self_link_p_tag = BeautifulSoup(self_link_p_tag, "html.parser")
             try:
-                thep[min(len(thep), 3)].append(self_link_p_tag)
+                list_p_tag[min(len(list_p_tag), 3)].append(self_link_p_tag)
             except Exception as e:
                 print(e)
                 pass
@@ -225,7 +225,7 @@ def process_content(article, url):
                     internal_link, internal_link_title, internal_link_title)
                 internal_link_p_tag1 = BeautifulSoup(internal_link_p_tag1, "html.parser")
                 try:
-                    thep[int(len(thep) / 2)].append(internal_link_p_tag1)
+                    list_p_tag[int(len(list_p_tag) / 2)].append(internal_link_p_tag1)
                 except Exception as e:
                     print(e)
                     pass
@@ -237,13 +237,13 @@ def process_content(article, url):
                     internal_link2, internal_link_title2, internal_link_title2)
                 internal_link_p_tag2 = BeautifulSoup(internal_link_p_tag2, "html.parser")
                 try:
-                    thep[len(thep) - 4].append(internal_link_p_tag2)
+                    list_p_tag[len(list_p_tag) - 4].append(internal_link_p_tag2)
                 except:
                     pass
 
             self_link_p_tag = BeautifulSoup(self_link_p_tag, "html.parser")
             try:
-                thep[min(len(thep), 3)].append(self_link_p_tag)
+                list_p_tag[min(len(list_p_tag), 3)].append(self_link_p_tag)
             except:
                 pass
 
@@ -261,6 +261,10 @@ def process_content(article, url):
     paper.append(nguon)
     listp = [{"ptag": m, "keywords": url["keyword"], "language": url["language"]} for m in
              paper.find_all("p")]
+
+    for p_tag in paper.find_all("p"):
+        print(p_tag)
+
     resultp = []
     for i in listp:
         if i["language"] == "vi":
