@@ -264,12 +264,12 @@ def process_content(article, url):
     listp = []
     is_replaced = False
     for p_tag in paper.find_all("p"):
-        print(p_tag)
+        print(type(p_tag))
         keyword = url["keyword"]
         anchor_text = url["anchortext"]
         base_url = url["baseUrl"]
         if is_replaced is False:
-            is_replaced = replace_anchortext(anchor_text, base_url, p_tag, keyword)
+            is_replaced = replace_anchortext(anchor_text, base_url, str(p_tag), keyword)
         listp.append({"ptag": p_tag, "keywords": url["keyword"], "language": url["language"]})
 
     resultp = []
