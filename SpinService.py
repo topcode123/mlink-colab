@@ -75,19 +75,19 @@ class SpinService:
                 tagged = nltk.pos_tag(words)
             for i in range(0,len(words)):
                 replacements = []
-                if (tagged[i][1] == 'NN' or tagged[i][1] == 'JJ' or tagged[i][1] == 'RB') and not re.match(r'<[^>]+>', words[i]):
-                    try:
-                        for syn in wordnet.synsets(words[i]):     
-    
-                    
-                            word_type = tagged[i][1][0].lower()
-                            if syn.name().find("."+word_type+"."):
-                                # extract the word only
-                                r = syn.name()[0:syn.name().find(".")]
-                                replacements.append(r)
+                # if (tagged[i][1] == 'NN' or tagged[i][1] == 'JJ' or tagged[i][1] == 'RB') and not re.match(r'<[^>]+>', words[i]):
+                try:
+                    for syn in wordnet.synsets(words[i]):
 
-                    except Exception as e:
-                        pass
+
+                        word_type = tagged[i][1][0].lower()
+                        if syn.name().find("."+word_type+"."):
+                            # extract the word only
+                            r = syn.name()[0:syn.name().find(".")]
+                            replacements.append(r)
+
+                except Exception as e:
+                    pass
 
                 if len(replacements) > 0:
                     # Choose a random replacement
@@ -135,19 +135,19 @@ class SpinService:
                 tagged = nltk.pos_tag(words)
             for i in range(0,len(words)):
                 replacements = []
-                if (tagged[i][1] == 'NN' or tagged[i][1] == 'JJ' or tagged[i][1] == 'RB') and not re.match(r'<[^>]+>', words[i] and words[i].lower() not in keyword.lower()):
-                    try:
-                        for syn in wordnet.synsets(words[i]):     
-    
-                    
-                            word_type = tagged[i][1][0].lower()
-                            if syn.name().find("."+word_type+"."):
-                                # extract the word only
-                                r = syn.name()[0:syn.name().find(".")]
-                                replacements.append(r)
+                # if (tagged[i][1] == 'NN' or tagged[i][1] == 'JJ' or tagged[i][1] == 'RB') and not re.match(r'<[^>]+>', words[i] and words[i].lower() not in keyword.lower()):
+                try:
+                    for syn in wordnet.synsets(words[i]):
 
-                    except Exception as e:
-                        pass
+
+                        word_type = tagged[i][1][0].lower()
+                        if syn.name().find("."+word_type+"."):
+                            # extract the word only
+                            r = syn.name()[0:syn.name().find(".")]
+                            replacements.append(r)
+
+                except Exception as e:
+                    pass
 
                 if len(replacements) > 0:
                     # Choose a random replacement

@@ -274,13 +274,14 @@ def process_content(article, url):
         ):
             text_replaced = replace_anchortext(anchor_text, base_url, str(p_tag), keyword)
             if text_replaced:
-                p_tag.replace_with(text_replaced)
+                # p_tag.replace_with(text_replaced)
                 print(p_tag.text)
                 is_replaced = True
+        listp.append({"ptag": p_tag, "keywords": url["keyword"], "language": url["language"]})
 
     if is_replaced is False:
         raise "not found keyword"
-        # listp.append({"ptag": p_tag, "keywords": url["keyword"], "language": url["language"]})
+
 
     resultp = []
     for i in listp:
