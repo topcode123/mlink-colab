@@ -1,9 +1,9 @@
 import datetime
+import random
 
 from newspaper import Config
 import html.parser
 from urllib.parse import urlparse
-from SpinService import *
 import requests
 import base64
 import html
@@ -14,6 +14,8 @@ from pymongo import MongoClient
 import time
 from PIL import Image
 import io
+
+from SpinService import SpinService
 from extract import ContentExtractor
 import re
 import logging
@@ -264,8 +266,6 @@ def process_content(article, url):
     listp = []
     is_replaced = False
     for p_tag in paper.find_all("p"):
-        print("***************")
-        print(p_tag.text)
         keyword = url["keyword"]
         anchor_text = url["anchortext"]
         base_url = url["baseUrl"]
@@ -291,6 +291,7 @@ def process_content(article, url):
 
     for k1, k2 in zip(listp, resultp):
         print(k1)
+        print("**************")
         print(k2)
         k1["ptag"].replace_with(k2)
     paper = str(paper)
