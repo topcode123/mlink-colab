@@ -278,8 +278,8 @@ def process_content(article, url):
                 print(p_tag.text)
                 is_replaced = True
 
-        if is_replaced is False:
-            raise "not found keyword"
+    if is_replaced is False:
+        raise "not found keyword"
         # listp.append({"ptag": p_tag, "keywords": url["keyword"], "language": url["language"]})
 
     # resultp = []
