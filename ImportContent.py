@@ -282,12 +282,12 @@ def process_content(article, url):
         raise "not found keyword"
         # listp.append({"ptag": p_tag, "keywords": url["keyword"], "language": url["language"]})
 
-    # resultp = []
-    # for i in listp:
-    #     if i["language"] == "vi":
-    #         resultp.append(spinService.spin_paragraph(i["ptag"], i["keywords"]))
-    #     else:
-    #         resultp.append(spinService.spin_paragraph_en(i["ptag"], i["keywords"]))
+    resultp = []
+    for i in listp:
+        if i["language"] == "vi":
+            resultp.append(spinService.spin_paragraph(i["ptag"], i["keywords"]))
+        else:
+            resultp.append(spinService.spin_paragraph_en(i["ptag"], i["keywords"]))
     #
     # for k1, k2 in zip(listp, resultp):
     #     print(k1)
