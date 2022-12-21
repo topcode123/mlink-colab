@@ -70,10 +70,10 @@ def ColabSimple():
     if queue_keywords.count_documents({}) > 0:
         try:
             keyword = queue_keywords.find_one_and_delete({})
-            print("key word: ", keyword["keyword"])
+
             if keyword:
                 today = int(datetime.datetime.today().astimezone(TIME_ZONE_VIET_NAM).timestamp())
-                print("key word not none")
+                print("key word: ", keyword["keyword"])
                 if keyword["language"] == "vi":
                     try:
 
