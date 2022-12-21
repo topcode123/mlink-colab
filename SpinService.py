@@ -26,16 +26,17 @@ class SpinService:
 
         word_splits = []
         try:
-            for i in p_paragraph:
-                if not re.match(r'<[^>]+>', i):
-                    word_splits  = word_splits + word_tokenize_vi(i)
+            for paragraph in p_paragraph:
+                if not re.match(r'<[^>]+>', paragraph):
+                    word_splits  = word_splits + word_tokenize_vi(paragraph)
                 else:
-                    word_splits  = word_splits.append(i)
-                    if  re.match(r'<img [^>]+>', i):
+                    word_splits  = word_splits.append(paragraph)
+                    if  re.match(r'<img [^>]+>', paragraph):
                         word_splits  = word_splits.append("<br>")
 
 
             if(word_splits!=None):
+                print(word_splits)
                 for index_word in range(len(word_splits)):
                     if word_splits[index_word] in self.dataspin and word_splits[index_word].lower() not in keyword.lower():
                         word_splits[index_word] = random.choice(self.dataspin[word_splits[index_word]])
