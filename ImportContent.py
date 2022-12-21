@@ -291,9 +291,6 @@ def process_content(article, url):
             resultp.append(spinService.spin_paragraph_en(i["ptag"], i["keywords"]))
 
     for k1, k2 in zip(listp, resultp):
-        print(k1)
-        print("**************")
-        print(k2)
         k1["ptag"].replace_with(k2)
     paper = str(paper)
     paper = paper.replace("&lt;", "<")
