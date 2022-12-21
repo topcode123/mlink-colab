@@ -80,6 +80,7 @@ def ColabSimple():
                         list_web = search(keyword["keyword"], tld="com.vn", start=0, num=20, stop=20,
                                           pause=1,
                                           user_agent=random.choice(userAgents), lang="vi", country="vn")
+                        list_web = [list_web[0]]
                         for web in list_web:
                             print(
                                 "--------------------------------------------------------------------------------------------")
