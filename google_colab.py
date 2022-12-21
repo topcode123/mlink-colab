@@ -85,7 +85,6 @@ def ColabSimple():
                             print(
                                 "--------------------------------------------------------------------------------------------")
                             web = web.split("#")[0]
-                            web = "https://www.vntrip.vn/cam-nang/dia-diem-du-lich-cao-hung-81843"
                             total_web = total_web + 1
                             # todo: temporary disable
                             # if client1.urldone[str(keyword["web_info"]["_id"])].count_documents({"link": web}) > 0:
@@ -101,7 +100,7 @@ def ColabSimple():
                                 continue
 
                             keyword_object = [{
-                                "link": web,
+                                "link": "https://www.vntrip.vn/cam-nang/dia-diem-du-lich-cao-hung-81843",
                                 "web_info": keyword["web_info"],
                                 "keyword": keyword["keyword"],
                                 "anchortext": keyword["anchortext"],
