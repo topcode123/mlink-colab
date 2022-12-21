@@ -76,8 +76,6 @@ def ColabSimple():
                 print("key word: ", keyword["keyword"])
                 if keyword["language"] == "vi":
                     try:
-
-                        print("language viet nam")
                         total_web = 0
                         list_web = search(keyword["keyword"], tld="com.vn", start=0, num=20, stop=20,
                                           pause=1,
@@ -85,17 +83,15 @@ def ColabSimple():
                         for web in list_web:
                             print(
                                 "--------------------------------------------------------------------------------------------")
-                            print(web)
                             web = web.split("#")[0]
                             total_web = total_web + 1
+                            # todo: temporary disable
+                            # if client1.urldone[str(keyword["web_info"]["_id"])].count_documents({"link": web}) > 0:
+                            #     continue
+                            # print("check mlink url done")
+                            # if mlink_url_done.count_documents({"link": web}) > 0:
+                            #     continue
 
-                            if client1.urldone[str(keyword["web_info"]["_id"])].count_documents({"link": web}) > 0:
-                                continue
-                            print("check mlink url done")
-                            if mlink_url_done.count_documents({"link": web}) > 0:
-                                continue
-
-                            print("new url")
                             domain = urlparse(web).netloc
                             print(f"domain: {domain}")
                             print(domain in keyword["web_info"]["Blacklist"])
@@ -103,7 +99,7 @@ def ColabSimple():
                                 continue
 
                             keyword_object = [{
-                                "link": web,
+                                "link": "https://www.vntrip.vn/cam-nang/dia-diem-du-lich-cao-hung-81843",
                                 "web_info": keyword["web_info"],
                                 "keyword": keyword["keyword"],
                                 "anchortext": keyword["anchortext"],
