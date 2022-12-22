@@ -7,6 +7,7 @@ import nltk.data
 from bs4 import BeautifulSoup as soup
 from nltk.tokenize import word_tokenize as word_tokenize_en
 import re
+from paraphaser import paraphase_vi
 
 
 class SpinService:
@@ -23,31 +24,31 @@ class SpinService:
     def spin_paragraph(self, p_paragraph1, keyword):
         p_paragraph = [str(t) if not re.match(r'<[^>]+>', str(t)) else str(t) for t in p_paragraph1.contents]
         print(f"p_paragraph: {p_paragraph}")
+        return paraphase_vi(p_paragraph1)
+        # word_splits = []
+        # try:
+        #     for paragraph in p_paragraph:
+        #         if not re.match(r'<[^>]+>', paragraph):
+        #             word_splits  = word_splits + word_tokenize_vi(paragraph)
+        #         else:
+        #             word_splits  = word_splits.append(paragraph)
+        #             if  re.match(r'<img [^>]+>', paragraph):
+        #                 word_splits  = word_splits.append("<br>")
 
-        word_splits = []
-        try:
-            for paragraph in p_paragraph:
-                if not re.match(r'<[^>]+>', paragraph):
-                    word_splits  = word_splits + word_tokenize_vi(paragraph)
-                else:
-                    word_splits  = word_splits.append(paragraph)
-                    if  re.match(r'<img [^>]+>', paragraph):
-                        word_splits  = word_splits.append("<br>")
 
+        #     if(word_splits!=None):
+        #         print(word_splits)
+        #         # for index_word in range(len(word_splits)):
+        #         #     if word_splits[index_word] in self.dataspin and word_splits[index_word].lower() not in keyword.lower():
+        #         #         word_splits[index_word] = random.choice(self.dataspin[word_splits[index_word]])
+        #         paragraph = " ".join(word_splits)
+        #         paragraph = soup(paragraph,"html.parser")
 
-            if(word_splits!=None):
-                print(word_splits)
-                for index_word in range(len(word_splits)):
-                    if word_splits[index_word] in self.dataspin and word_splits[index_word].lower() not in keyword.lower():
-                        word_splits[index_word] = random.choice(self.dataspin[word_splits[index_word]])
-                paragraph = " ".join(word_splits)
-                paragraph = soup(paragraph,"html.parser")
-
-                return paragraph
-            else:
-                return p_paragraph1
-        except:
-            return p_paragraph1
+        #         return paragraph
+        #     else:
+        #         return p_paragraph1
+        # except:
+        #     return p_paragraph1
 
 
     def spin_paragraph_en(self,p_paragraph1,keyword):
