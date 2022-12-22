@@ -43,7 +43,7 @@ class SpinService:
                 print(paragraph)
                 paragraph = paraphase_vi(paragraph)["data"]
                 print(paragraph)
-                paragraph = soup(paragraph,"html.parser")
+                paragraph = soup(paragraph, "html.parser")
 
                 return paragraph
             else:
