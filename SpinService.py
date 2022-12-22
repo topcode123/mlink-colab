@@ -23,15 +23,15 @@ class SpinService:
 
     def spin_paragraph(self, p_paragraph1, keyword):
         p_paragraph = [str(t) if not re.match(r'<[^>]+>', str(t)) else str(t) for t in p_paragraph1.contents]
-        print(f"p_paragraph: {p_paragraph}")
         word_splits = []
         try:
             for paragraph in p_paragraph:
-                if not re.match(r'<[^>]+>', paragraph):
-                    word_splits  = word_splits + word_tokenize_vi(paragraph)
+                new_paragraph = paraphase_vi(paragraph)
+                if not re.match(r'<[^>]+>', new_paragraph):
+                    word_splits  = word_splits + word_tokenize_vi(new_paragraph)
                 else:
-                    word_splits  = word_splits.append(paragraph)
-                    if  re.match(r'<img [^>]+>', paragraph):
+                    word_splits  = word_splits.append(new_paragraph)
+                    if  re.match(r'<img [^>]+>', new_paragraph):
                         word_splits  = word_splits.append("<br>")
 
 
@@ -41,7 +41,7 @@ class SpinService:
                 #     if word_splits[index_word] in self.dataspin and word_splits[index_word].lower() not in keyword.lower():
                 #         word_splits[index_word] = random.choice(self.dataspin[word_splits[index_word]])
                 paragraph = " ".join(word_splits)
-                paragraph = paraphase_vi(paragraph)
+
                 paragraph = soup(paragraph,"html.parser")
 
                 return paragraph
