@@ -35,12 +35,14 @@ class SpinService:
 
 
             if(word_splits!=None):
-                print(word_splits)
                 for index_word in range(len(word_splits)):
                     if word_splits[index_word] in self.dataspin and word_splits[index_word].lower() not in keyword.lower():
                         word_splits[index_word] = random.choice(self.dataspin[word_splits[index_word]])
+                print("*******")
                 paragraph = " ".join(word_splits)
+                print(paragraph)
                 paragraph = paraphase_vi(paragraph)
+                print(paragraph)
                 paragraph = soup(paragraph,"html.parser")
 
                 return paragraph
