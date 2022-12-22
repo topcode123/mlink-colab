@@ -41,7 +41,7 @@ class SpinService:
                 print("*******")
                 paragraph = " ".join(word_splits)
                 print(paragraph)
-                paragraph = paraphase_vi(paragraph)
+                paragraph = paraphase_vi(paragraph)["data"]
                 print(paragraph)
                 paragraph = soup(paragraph,"html.parser")
 
