@@ -282,11 +282,18 @@ def process_content(article, url):
     if is_replaced is False:
         raise "not found keyword"
 
-
     resultp = []
+    replaced = {
+        "is_replaced": False
+    }
+
+    keyword_replace = url["keyword"]
+    anchor_text = url["anchortext"]
+    base_url = url["baseUrl"]
     for i in listp:
         if i["language"] == "vi":
-            resultp.append(spinService.spin_paragraph(i["ptag"], i["keywords"]))
+            resultp.append(
+                spinService.spin_paragraph(i["ptag"], i["keywords"], replaced, keyword_replace, anchor_text, base_url))
         else:
             resultp.append(spinService.spin_paragraph_en(i["ptag"], i["keywords"]))
 
@@ -476,7 +483,6 @@ def replace_anchortext(anchor_text, base_url, content, keyword):
             return None
         else:
             return content
-
 
 
 def get_contents(article, keyword_object):
