@@ -51,7 +51,7 @@ class SpinService:
             else:
                 new_paragraph = p_paragraph1
 
-            print(new_paragraph)
+            print(f"new_paragraph: {new_paragraph}")
 
             text_replaced = replace_anchortext(anchor_text, base_url, new_paragraph.text, keyword_replace)
             if text_replaced is not None and replaced["is_replaced"] is False and new_paragraph is not None:
@@ -62,7 +62,7 @@ class SpinService:
 
         except Exception as e:
             print(str(e))
-            print(p_paragraph1)
+            print(f"p_paragraph1: {p_paragraph1}")
 
             text_replaced = replace_anchortext(anchor_text, base_url, p_paragraph1.text, keyword_replace)
             if text_replaced is not None and replaced["is_replaced"] is False and p_paragraph1 is not None:
