@@ -19,6 +19,7 @@ from SpinService import SpinService
 from extract import ContentExtractor
 import re
 import logging
+import openai
 
 logging.basicConfig(format='%(asctime)s,%(msecs)03d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
                     datefmt='%Y-%m-%d:%H:%M:%S',
@@ -302,6 +303,7 @@ def process_content(article, url):
     except Exception as e:
         print(e)
         pass
+    print(gpt_processing(str(paper)))
     content = {
         "user": url,
         "title": article.title,
@@ -442,8 +444,6 @@ def import_content(content, keyword_object):
     return True
 
 
-
-
 def get_contents(article, keyword_object):
     content_process = process_content(article, keyword_object)
     print("url data: ", keyword_object)
@@ -451,3 +451,14 @@ def get_contents(article, keyword_object):
     content = import_content(content_process, keyword_object)
     print("-----------------------------------------------------------------------------------------------------------")
     return content
+
+
+def gpt_processing(raw_data):
+    openai.api_key = "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"
+    print("raw data len: ", len(raw_data) + 1)
+    gpt_data_convert_dictionary = openai.Completion.create(
+        model="text-davinci-002",
+        prompt=raw_data,
+        max_tokens=len(raw_data) + 1,
+    )
+    return gpt_data_convert_dictionary["choices"][0]["text"].strip()
