@@ -44,7 +44,7 @@ class SpinService:
                         word_splits[index_word] = random.choice(self.dataspin[word_splits[index_word]])
                 print("*******")
                 paragraph = " ".join(word_splits)
-                paragraph = paraphase_vi(paragraph)["data"]
+                # paragraph = paraphase_vi(paragraph)["data"]
 
                 paragraph = soup(paragraph, "html.parser")
 
