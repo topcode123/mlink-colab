@@ -454,7 +454,7 @@ def get_contents(article, keyword_object):
 
 
 def gpt_processing(raw_data):
-    openai.api_key = "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"
+    openai.api_key = "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"
     print("raw data len: ", len(raw_data) + 1)
     gpt_data_convert_dictionary = openai.Completion.create(
         model="text-davinci-002",
