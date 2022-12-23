@@ -264,23 +264,8 @@ def process_content(article, url):
     # listp = [{"ptag": m, "keywords": url["keyword"], "language": url["language"]} for m in
     #          paper.find_all("p")]
     listp = []
-    is_replaced = False
     for p_tag in paper.find_all("p"):
-        keyword = url["keyword"]
-        anchor_text = url["anchortext"]
-        base_url = url["baseUrl"]
-        if (
-                is_replaced is False
-        ):
-            text_replaced = replace_anchortext(anchor_text, base_url, str(p_tag), keyword)
-            if text_replaced:
-                # p_tag.replace_with(text_replaced)
-                print(p_tag.text)
-                is_replaced = True
         listp.append({"ptag": p_tag, "keywords": url["keyword"], "language": url["language"]})
-
-    if is_replaced is False:
-        raise "not found keyword"
 
     resultp = []
     replaced = {
