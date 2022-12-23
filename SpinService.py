@@ -185,7 +185,8 @@ class SpinService:
 
 
 def replace_anchortext(anchor_text, base_url, content, keyword):
-    anchor_link = f"""<a href='{base_url}'>{anchor_text}</a>"""
+    # anchor_link = f"""<a href='{base_url}'>{anchor_text}</a>"""
+    anchor_link = f"""replace__anchor_link"""
     if re.search(str(keyword), content, re.IGNORECASE):
         pattern = re.compile(str(keyword), re.IGNORECASE)
         print(f"{keyword} ---- {anchor_text}")
