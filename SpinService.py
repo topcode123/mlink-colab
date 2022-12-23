@@ -55,7 +55,7 @@ class SpinService:
 
             text_replaced = replace_anchortext(anchor_text, base_url, new_paragraph.text, keyword_replace)
             if text_replaced is not None and replaced["is_replaced"] is False:
-                new_paragraph.replace_with(text_replaced)
+                new_paragraph.string.replace_with(text_replaced)
                 replaced["is_replaced"] = True
 
             return new_paragraph
@@ -66,7 +66,7 @@ class SpinService:
 
             text_replaced = replace_anchortext(anchor_text, base_url, p_paragraph1.text, keyword_replace)
             if text_replaced is not None and replaced["is_replaced"] is False:
-                p_paragraph1.replace_with(text_replaced)
+                p_paragraph1.string.replace_with(text_replaced)
                 replaced["is_replaced"] = True
                 return p_paragraph1
 
