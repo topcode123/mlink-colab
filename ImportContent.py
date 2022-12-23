@@ -442,32 +442,6 @@ def import_content(content, keyword_object):
     return True
 
 
-def replace_anchortext(anchor_text, base_url, content, keyword):
-    anchor_link = f"""<a href='{base_url}'>{anchor_text}</a>"""
-    if re.search(str(keyword), content, re.IGNORECASE):
-        pattern = re.compile(str(keyword), re.IGNORECASE)
-        print(f"{keyword} ---- {anchor_text}")
-        content = pattern.sub(anchor_link, content, 1)
-        print(content)
-        return content
-    else:
-        anchor_link = f"{anchor_link} "
-        list_word = str(keyword).split(" ")
-        found = False
-        for word in list_word:
-            if re.search(word, content, re.IGNORECASE):
-                pattern = re.compile(word, re.IGNORECASE)
-                content = pattern.sub(anchor_link, content, 1)
-
-                print(f"{word} ---- {anchor_text}")
-                print(content)
-                found = True
-                break
-
-        if found is False:
-            return None
-        else:
-            return content
 
 
 def get_contents(article, keyword_object):
