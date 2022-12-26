@@ -277,11 +277,13 @@ def process_content(article, url):
     anchor_text = url["anchortext"]
     base_url = url["baseUrl"]
     for i in listp:
-        if i["language"] == "vi":
-            resultp.append(
+        resultp.append(
                 spinService.spin_paragraph(i["ptag"], i["keywords"], replaced, keyword_replace, anchor_text, base_url))
-        else:
-            resultp.append(spinService.spin_paragraph_en(i["ptag"], i["keywords"]))
+        # if i["language"] == "vi":
+        #     resultp.append(
+        #         spinService.spin_paragraph(i["ptag"], i["keywords"], replaced, keyword_replace, anchor_text, base_url))
+        # else:
+        #     resultp.append(spinService.spin_paragraph_en(i["ptag"], i["keywords"]))
 
     for k1, k2 in zip(listp, resultp):
         k1["ptag"].replace_with(k2)
