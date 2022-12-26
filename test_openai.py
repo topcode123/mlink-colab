@@ -2,7 +2,7 @@ import openai
 
 
 def gpt_processing(raw_data):
-    openai.api_key = "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"
+    openai.api_key = ""
     print("raw data len: ", len(raw_data) + 1)
     gpt_data_convert_dictionary = openai.Completion.create(
         model="text-davinci-002",
@@ -15,7 +15,7 @@ def gpt_processing(raw_data):
 def GPT_Completion(texts):
     ## Call the API key under your account (in a secure way)
     response = openai.Completion.create(
-        engine="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",
+        engine="",
         prompt=texts,
         temperature=0.6,
         top_p=1,
