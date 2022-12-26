@@ -23,9 +23,18 @@ def paraphase_vi(paragraph):
 
 
 def rewrite_article_gpt3(raw_data):
+    # results = openai.Completion.create(
+    #     model="text-davinci-003",
+    #     prompt="viết lại đoạn văn sau bằng tiếng việt\n" + raw_data + "",
+    #     temperature=0,
+    #     max_tokens=len(raw_data) + 1,
+    #     top_p=1,
+    #     frequency_penalty=0.2,
+    #     presence_penalty=0
+    # )
     results = openai.Completion.create(
         model="text-davinci-003",
-        prompt="viết lại đoạn văn sau bằng tiếng việt\n" + raw_data + "",
+        prompt="in a suspensful and mysterious style rewrite text below\n" + raw_data + "",
         temperature=0,
         max_tokens=len(raw_data) + 1,
         top_p=1,
