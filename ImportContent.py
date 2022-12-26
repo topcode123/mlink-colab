@@ -26,7 +26,7 @@ logging.basicConfig(format='%(asctime)s,%(msecs)03d %(levelname)-8s [%(filename)
                     level=logging.ERROR)
 
 logger = logging.getLogger(__name__)
-openai.api_key = "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"
+openai.api_key = OPENAI_TOKEN
 
 def no_accent_vietnamese(s):
     s = re.sub(r'[àáạảãâầấậẩẫăằắặẳẵ]', 'a', s)
