@@ -99,7 +99,7 @@ def ColabSimple():
                                 continue
 
                             keyword_object = [{
-                                "link": web,
+                                "link": "https://www.thesprucecrafts.com/the-most-valuable-pennies-4151629",
                                 "web_info": keyword["web_info"],
                                 "keyword": keyword["keyword"],
                                 "anchortext": keyword["anchortext"],
