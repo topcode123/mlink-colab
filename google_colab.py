@@ -99,7 +99,7 @@ def ColabSimple():
                                 continue
 
                             keyword_object = [{
-                                "link": "https://www.gainesvillecoins.com/blog/10-most-valuable-pennies",
+                                "link": "https://www.cnbc.com/2019/07/18/valuable-pennies-worth-up-to-200000-might-be-sitting-in-your-pocket.html",
                                 "web_info": keyword["web_info"],
                                 "keyword": keyword["keyword"],
                                 "anchortext": keyword["anchortext"],
