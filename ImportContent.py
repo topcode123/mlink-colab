@@ -26,7 +26,7 @@ logging.basicConfig(format='%(asctime)s,%(msecs)03d %(levelname)-8s [%(filename)
                     level=logging.ERROR)
 
 logger = logging.getLogger(__name__)
-
+openai.api_key = "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"
 
 def no_accent_vietnamese(s):
     s = re.sub(r'[àáạảãâầấậẩẫăằắặẳẵ]', 'a', s)
@@ -303,7 +303,7 @@ def process_content(article, url):
     except Exception as e:
         print(e)
         pass
-    print(gpt_processing(str(paper)))
+    rewrite_artical_gpt3(str(paper))
     content = {
         "user": url,
         "title": article.title,
@@ -453,12 +453,19 @@ def get_contents(article, keyword_object):
     return content
 
 
-def gpt_processing(raw_data):
-    openai.api_key = "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"
-    print("raw data len: ", len(raw_data) + 1)
-    gpt_data_convert_dictionary = openai.Completion.create(
-        model="text-davinci-002",
-        prompt=raw_data,
+def rewrite_artical_gpt3(raw_data):
+    results = openai.Completion.create(
+        model="text-davinci-003",
+        prompt="viết lại đoạn văn sau bằng tiếng việt\n" + raw_data + "",
+        temperature=0,
         max_tokens=len(raw_data) + 1,
+        top_p=1,
+        frequency_penalty=0.2,
+        presence_penalty=0
     )
-    return gpt_data_convert_dictionary["choices"][0]["text"].strip()
+    response = dict(results)
+
+    openai_response = response['choices']
+    print(openai_response[-1]['text'])
+
+
