@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup as soup
 from nltk.tokenize import word_tokenize as word_tokenize_en
 import re
 
-from paraphaser import paraphase_vi
+from paraphaser import paraphase_vi, rewrite_article_gpt3
 
 
 class SpinService:
@@ -43,7 +43,7 @@ class SpinService:
                 #     ):
                 #         word_splits[index_word] = random.choice(self.dataspin[word_splits[index_word]])
                 print("*******")
-                paragraph = " ".join(word_splits)
+                paragraph = rewrite_article_gpt3(" ".join(word_splits))
                 print(paragraph)
                 # paragraph = paraphase_vi(paragraph)["data"]
 
