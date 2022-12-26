@@ -26,7 +26,6 @@ class SpinService:
 
         p_paragraph = [str(t) if not re.match(r'<[^>]+>', str(t)) else str(t) for t in p_paragraph1.contents]
         word_splits = []
-        print(p_paragraph1.contents)
         try:
             for paragraph in p_paragraph:
                 if not re.match(r'<[^>]+>', paragraph):
@@ -37,14 +36,15 @@ class SpinService:
                         word_splits = word_splits.append("<br>")
 
             if (word_splits != None):
-                for index_word in range(len(word_splits)):
-                    if (
-                            word_splits[index_word] in self.dataspin and
-                            word_splits[index_word].lower() not in keyword.lower()
-                    ):
-                        word_splits[index_word] = random.choice(self.dataspin[word_splits[index_word]])
+                # for index_word in range(len(word_splits)):
+                #     if (
+                #             word_splits[index_word] in self.dataspin and
+                #             word_splits[index_word].lower() not in keyword.lower()
+                #     ):
+                #         word_splits[index_word] = random.choice(self.dataspin[word_splits[index_word]])
                 print("*******")
                 paragraph = " ".join(word_splits)
+                print(paragraph)
                 # paragraph = paraphase_vi(paragraph)["data"]
 
                 paragraph = soup(paragraph, "html.parser")
