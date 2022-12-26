@@ -23,10 +23,13 @@ class SpinService:
         wordnet.ensure_loaded()
 
     def spin_paragraph(self, p_paragraph1, keyword, replaced, keyword_replace, anchor_text, base_url):
+
         p_paragraph = [str(t) if not re.match(r'<[^>]+>', str(t)) else str(t) for t in p_paragraph1.contents]
         word_splits = []
         try:
             for paragraph in p_paragraph:
+                print(paragraph)
+                print("+")
                 if not re.match(r'<[^>]+>', paragraph):
                     word_splits = word_splits + word_tokenize_vi(paragraph)
                 else:
@@ -51,8 +54,6 @@ class SpinService:
             else:
                 new_paragraph = p_paragraph1
 
-            print(f"new_paragraph: {new_paragraph}")
-
             text_replaced = replace_anchortext(anchor_text, base_url, new_paragraph.text, keyword_replace)
             if text_replaced is not None and replaced["is_replaced"] is False and new_paragraph is not None:
                 new_paragraph.string.replace_with(text_replaced)
@@ -64,11 +65,11 @@ class SpinService:
             print(str(e))
             print(f"p_paragraph1: {p_paragraph1}")
 
-            text_replaced = replace_anchortext(anchor_text, base_url, p_paragraph1.text, keyword_replace)
-            if text_replaced is not None and replaced["is_replaced"] is False and p_paragraph1 is not None:
-                p_paragraph1.string.replace_with(text_replaced)
-                replaced["is_replaced"] = True
-                return p_paragraph1
+            # text_replaced = replace_anchortext(anchor_text, base_url, p_paragraph1.text, keyword_replace)
+            # if text_replaced is not None and replaced["is_replaced"] is False and p_paragraph1 is not None:
+            #     p_paragraph1.string.replace_with(text_replaced)
+            #     replaced["is_replaced"] = True
+            #     return p_paragraph1
 
             return p_paragraph1
 
