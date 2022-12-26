@@ -9,23 +9,3 @@ nltk
 openai
 pytz
 Unidecode
-google                        2.0.3
-google-api-core               2.8.2
-google-api-python-client      1.12.11
-google-auth                   2.15.0
-google-auth-httplib2          0.0.4
-google-auth-oauthlib          0.4.6
-google-cloud-bigquery         3.3.6
-google-cloud-bigquery-storage 2.16.2
-google-cloud-core             2.3.2
-google-cloud-datastore        2.9.0
-google-cloud-firestore        2.7.2
-google-cloud-language         2.6.1
-google-cloud-storage          2.5.0
-google-cloud-translate        3.8.4
-google-colab                  1.0.0
-google-crc32c                 1.5.0
-google-pasta                  0.2.0
-google-resumable-media        2.4.0
-googleapis-common-protos      1.57.0
-googledrivedownloader         0.4
