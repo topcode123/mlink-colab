@@ -111,7 +111,7 @@ def ColabSimple():
                                 "category": keyword["category"]
                             }]
                             config = Configuration()
-                            config.set_language("vi")
+                            # config.set_language("vi")
                             config.request_timeout = 10
                             config.browser_user_agent = random.choice(userAgents)
                             print(f"web object process: {keyword_object}")
