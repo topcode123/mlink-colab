@@ -26,10 +26,9 @@ class SpinService:
 
         p_paragraph = [str(t) if not re.match(r'<[^>]+>', str(t)) else str(t) for t in p_paragraph1.contents]
         word_splits = []
+        print(p_paragraph1.contents)
         try:
             for paragraph in p_paragraph:
-                print(paragraph)
-                print("+")
                 if not re.match(r'<[^>]+>', paragraph):
                     word_splits = word_splits + word_tokenize_vi(paragraph)
                 else:
