@@ -3,7 +3,7 @@ import os
 LINK_FILE_CONTENT = "data/data1.txt"
 CONNECTION_STRING_MGA = "mongodb+srv://vutrian:An.vt172933@cluster0.rjcdt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 CONNECTION_STRING_MGA1 = os.environ.get("MONGO_URI")
-OPENAI_TOKEN = os.environ.get("OPENAPI_TOKEN")
+OPENAI_TOKEN = os.environ.get("OPENAI_TOKEN")
 CONNECTION_STRING_LOCAL = "localhost"
 PORT = 27017
 WEBSITE = "https://sitetest.momd.techdigi.vn/wp-json/wp/v2/posts"
