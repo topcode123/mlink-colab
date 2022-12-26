@@ -303,11 +303,11 @@ def process_content(article, url):
     except Exception as e:
         print(e)
         pass
-    rewrite_artical_gpt3(str(paper))
+    transformed_paper = rewrite_article_gpt3(str(paper))
     content = {
         "user": url,
         "title": article.title,
-        "content": str(paper),
+        "content": transformed_paper,
         "category": url["category"],
         "url_img": thumb,
         "src_img": src_img,
@@ -453,7 +453,7 @@ def get_contents(article, keyword_object):
     return content
 
 
-def rewrite_artical_gpt3(raw_data):
+def rewrite_article_gpt3(raw_data):
     results = openai.Completion.create(
         model="text-davinci-003",
         prompt="viết lại đoạn văn sau bằng tiếng việt\n" + raw_data + "",
@@ -467,5 +467,6 @@ def rewrite_artical_gpt3(raw_data):
 
     openai_response = response['choices']
     print(openai_response[-1]['text'])
+    return openai_response[-1]['text']
 
 
