@@ -25,6 +25,7 @@ class SpinService:
     def spin_paragraph(self, p_paragraph1, keyword, replaced, keyword_replace, anchor_text, base_url):
 
         p_paragraph = [str(t) if not re.match(r'<[^>]+>', str(t)) else str(t) for t in p_paragraph1.contents]
+        print(p_paragraph1)
         word_splits = []
         try:
             for paragraph in p_paragraph:
@@ -43,8 +44,9 @@ class SpinService:
                 #     ):
                 #         word_splits[index_word] = random.choice(self.dataspin[word_splits[index_word]])
                 print("*******")
-                paragraph = rewrite_article_gpt3(" ".join(word_splits))
-                print(paragraph)
+                paragraph = " ".join(word_splits)
+                # paragraph = rewrite_article_gpt3(" ".join(word_splits))
+                # print(paragraph)
                 # paragraph = paraphase_vi(paragraph)["data"]
 
                 paragraph = soup(paragraph, "html.parser")
@@ -53,10 +55,10 @@ class SpinService:
             else:
                 new_paragraph = p_paragraph1
 
-            text_replaced = replace_anchortext(anchor_text, base_url, new_paragraph.text, keyword_replace)
-            if text_replaced is not None and replaced["is_replaced"] is False and new_paragraph is not None:
-                new_paragraph.string.replace_with(text_replaced)
-                replaced["is_replaced"] = True
+            # text_replaced = replace_anchortext(anchor_text, base_url, new_paragraph.text, keyword_replace)
+            # if text_replaced is not None and replaced["is_replaced"] is False and new_paragraph is not None:
+            #     new_paragraph.string.replace_with(text_replaced)
+            #     replaced["is_replaced"] = True
 
             return new_paragraph
 
