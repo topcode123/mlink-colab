@@ -28,41 +28,41 @@ class SpinService:
         print(p_paragraph1)
         word_splits = []
         try:
-            # for paragraph in p_paragraph:
-            #     if not re.match(r'<[^>]+>', paragraph):
-            #         word_splits = word_splits + word_tokenize_vi(paragraph)
-            #     else:
-            #         word_splits = word_splits.append(paragraph)
-            #         if re.match(r'<img [^>]+>', paragraph):
-            #             word_splits = word_splits.append("<br>")
-            #
-            # if (word_splits != None):
-            #     # for index_word in range(len(word_splits)):
-            #     #     if (
-            #     #             word_splits[index_word] in self.dataspin and
-            #     #             word_splits[index_word].lower() not in keyword.lower()
-            #     #     ):
-            #     #         word_splits[index_word] = random.choice(self.dataspin[word_splits[index_word]])
-            #     print("*******")
-            #     paragraph = " ".join(word_splits)
-            #     # paragraph = rewrite_article_gpt3(" ".join(word_splits))
-            #     # print(paragraph)
-            #     # paragraph = paraphase_vi(paragraph)["data"]
-            #
-            #     paragraph = soup(paragraph, "html.parser")
-            #
-            #     new_paragraph = paragraph
-            # else:
-            #     new_paragraph = p_paragraph1
-            #
-            # # text_replaced = replace_anchortext(anchor_text, base_url, new_paragraph.text, keyword_replace)
-            # # if text_replaced is not None and replaced["is_replaced"] is False and new_paragraph is not None:
-            # #     new_paragraph.string.replace_with(text_replaced)
-            # #     replaced["is_replaced"] = True
-            #
-            # return new_paragraph
-            paragraph = soup(rewrite_article_gpt3(str(p_paragraph1)), "html.parser")
-            return paragraph
+            for paragraph in p_paragraph:
+                if not re.match(r'<[^>]+>', paragraph):
+                    word_splits = word_splits + word_tokenize_vi(paragraph)
+                else:
+                    word_splits = word_splits.append(paragraph)
+                    if re.match(r'<img [^>]+>', paragraph):
+                        word_splits = word_splits.append("<br>")
+            
+            if (word_splits != None):
+                for index_word in range(len(word_splits)):
+                    if (
+                            word_splits[index_word] in self.dataspin and
+                            word_splits[index_word].lower() not in keyword.lower()
+                    ):
+                        word_splits[index_word] = random.choice(self.dataspin[word_splits[index_word]])
+                print("*******")
+                paragraph = " ".join(word_splits)
+                # paragraph = rewrite_article_gpt3(" ".join(word_splits))
+                # print(paragraph)
+                # paragraph = paraphase_vi(paragraph)["data"]
+            
+                paragraph = soup(paragraph, "html.parser")
+            
+                new_paragraph = paragraph
+            else:
+                new_paragraph = p_paragraph1
+            
+            text_replaced = replace_anchortext(anchor_text, base_url, new_paragraph.text, keyword_replace)
+            if text_replaced is not None and replaced["is_replaced"] is False and new_paragraph is not None:
+                new_paragraph.string.replace_with(text_replaced)
+                replaced["is_replaced"] = True
+            
+            return new_paragraph
+            # paragraph = soup(rewrite_article_gpt3(str(p_paragraph1)), "html.parser")
+            # return paragraph
 
         except Exception as e:
             print(str(e))
