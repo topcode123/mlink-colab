@@ -85,12 +85,12 @@ def ColabSimple():
                                 "--------------------------------------------------------------------------------------------")
                             web = web.split("#")[0]
                             total_web = total_web + 1
-                            # if client1.urldone[str(keyword["web_info"]["_id"])].count_documents({"link": web}) > 0:
-                            #     continue
-                            #
-                            # print("check mlink url done")
-                            # if mlink_url_done.count_documents({"link": web}) > 0:
-                            #     continue
+                            if client1.urldone[str(keyword["web_info"]["_id"])].count_documents({"link": web}) > 0:
+                                continue
+                            
+                            print("check mlink url done")
+                            if mlink_url_done.count_documents({"link": web}) > 0:
+                                continue
 
                             domain = urlparse(web).netloc
                             print(f"domain: {domain}")
