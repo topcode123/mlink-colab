@@ -111,7 +111,7 @@ def ColabSimple():
                                 "category": keyword["category"]
                             }]
                             config = Configuration()
-                            # config.set_language("vi")
+                            config.set_language("vi")
                             config.request_timeout = 10
                             config.browser_user_agent = random.choice(userAgents)
                             print(f"web object process: {keyword_object}")
@@ -155,7 +155,7 @@ def ColabSimple():
 
                                 # if len(article.text.split(" ")) >= 300 and (
                                 #         "content=\"vi_" in article.html or "lang=\"vi\"" in article.html):
-                                if len(article.text.split(" ")) >= 200:
+                                if len(article.text.split(" ")) >= 300:
                                     try:
                                         print("get content")
                                         done = get_contents(article, keyword_object[0])
