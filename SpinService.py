@@ -43,7 +43,6 @@ class SpinService:
                             word_splits[index_word].lower() not in keyword.lower()
                     ):
                         word_splits[index_word] = random.choice(self.dataspin[word_splits[index_word]])
-                print("*******")
                 paragraph = " ".join(word_splits)
                 # paragraph = rewrite_article_gpt3(" ".join(word_splits))
                 # print(paragraph)
@@ -206,8 +205,6 @@ def replace_anchortext(anchor_text, base_url, content, keyword):
                 pattern = re.compile(word, re.IGNORECASE)
                 content = pattern.sub(anchor_link, content, 1)
 
-                print(f"{word} ---- {anchor_text}")
-                print(content)
                 found = True
                 break
 
