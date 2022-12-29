@@ -25,7 +25,6 @@ class SpinService:
     def spin_paragraph(self, p_paragraph1, keyword, replaced, keyword_replace, anchor_text, base_url):
 
         p_paragraph = [str(t) if not re.match(r'<[^>]+>', str(t)) else str(t) for t in p_paragraph1.contents]
-        print(p_paragraph1)
         word_splits = []
         try:
             for paragraph in p_paragraph:

@@ -392,6 +392,7 @@ def import_content(content, keyword_object):
     # replace_anchortext(anchor_text, base_url, content, keyword)
     # content["content"] = content.get("content").replace(str(keyword["keyword"]), anchor_link, 1)
     anchor_link = f"""<a href='{base_url}'>{anchor_text}</a>"""
+    print(content["content"].find("replace__anchor_link"))
     if content["content"].find("replace__anchor_link") != -1:
         content["content"].replace("replace__anchor_link", anchor_link, 1)
     else:
