@@ -387,9 +387,15 @@ def import_content(content, keyword_object):
     content["content"] = content["content"].replace("Bất động sản", "")
     content["content"] = content["content"].replace("bất động sản", "")
     # find keyword and replace anchor text for test
+    # replace here
 
     # replace_anchortext(anchor_text, base_url, content, keyword)
     # content["content"] = content.get("content").replace(str(keyword["keyword"]), anchor_link, 1)
+    anchor_link = f"""<a href='{base_url}'>{anchor_text}</a>"""
+    if content.find("replace__anchor_link") != -1:
+        content.replace("replace__anchor_link", anchor_link, 1)
+    else:
+        raise "not found keyword"
 
     credentials = user + ':' + password
     token = base64.b64encode(credentials.encode())
