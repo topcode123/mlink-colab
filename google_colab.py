@@ -18,6 +18,8 @@ from requests import get
 import time
 import re
 
+from utils import random_string
+
 # filename = get('http://172.28.0.2:9000/api/sessions').json()[0]['name']
 
 
@@ -77,7 +79,7 @@ def ColabSimple():
                 if keyword["language"] == "vi":
                     try:
                         total_web = 0
-                        list_web = search(keyword["keyword"], tld="com.vn", start=0, num=20, stop=20,
+                        list_web = search(f'{keyword["keyword"]} {random_string(random.randrange(10, 30))}', tld="com.vn", start=0, num=20, stop=20,
                                           pause=1,
                                           user_agent=random.choice(userAgents), lang="vi", country="vn")
                         for web in list_web:
