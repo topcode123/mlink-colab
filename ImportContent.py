@@ -394,7 +394,7 @@ def import_content(content, keyword_object):
     anchor_link = f"""<a href='{base_url}'>{anchor_text}</a>"""
     print(content["content"].find("replace__anchor_link"))
     if content["content"].find("replace__anchor_link") != -1:
-        content["content"].replace("replace__anchor_link", anchor_link, 1)
+        content["content"] = content["content"].replace("replace__anchor_link", anchor_link, 1)
     else:
         raise "not found keyword"
 
