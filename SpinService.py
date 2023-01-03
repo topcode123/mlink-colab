@@ -14,7 +14,7 @@ from paraphaser import paraphase_vi, rewrite_article_gpt3
 class SpinService:
 
     def __init__(self) -> None:
-        with open("dataspin.p", "rb") as file:
+        with open("new_dataspin.p", "rb") as file:
             self.dataspin = pickle.load(file)
         nltk.download('omw-1.4')
         nltk.download('wordnet')
