@@ -95,8 +95,8 @@ def ColabSimple():
                                 continue
                             
                             print("check mlink url done")
-                            if mlink_url_done.count_documents({"link": web}) > 0:
-                                continue
+                            # if mlink_url_done.count_documents({"link": web}) > 0:
+                            #     continue
 
                             domain = urlparse(web).netloc
                             print(f"domain: {domain}")

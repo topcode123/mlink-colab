@@ -63,9 +63,6 @@ class SpinService:
             # return paragraph
 
         except Exception as e:
-            print(str(e))
-            print(f"p_paragraph1: {p_paragraph1}")
-
             # text_replaced = replace_anchortext(anchor_text, base_url, p_paragraph1.text, keyword_replace)
             # if text_replaced is not None and replaced["is_replaced"] is False and p_paragraph1 is not None:
             #     p_paragraph1.string.replace_with(text_replaced)

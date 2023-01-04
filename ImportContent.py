@@ -280,12 +280,12 @@ def process_content(article, url):
     for i in listp:
         if i["language"] == "vi":
             spinned = spinService.spin_paragraph(i["ptag"], i["keywords"], replaced, keyword_replace, anchor_text, base_url)
-            print(spinned)
             resultp.append(spinned)
         else:
             resultp.append(spinService.spin_paragraph_en(i["ptag"], i["keywords"]))
     
     for index in range(0, len(resultp)):
+        print(resultp[index])
         if index > 2 and index < len(resultp) - 2:
             if resultp[index].p is not None:
                 resultp[index] = resultp[index].p.wrap(resultp[index].new_tag("blockquote"))
