@@ -75,7 +75,7 @@ def ColabSimple():
 
             if keyword:
                 today = int(datetime.datetime.today().astimezone(TIME_ZONE_VIET_NAM).timestamp())
-                print("key word: ", keyword["keyword"])
+                print("key-----word: ", keyword["keyword"])
                 if keyword["language"] == "vi":
                     try:
                         total_web = 0
