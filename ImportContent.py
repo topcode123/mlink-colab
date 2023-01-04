@@ -287,8 +287,10 @@ def process_content(article, url):
     for index in range(0, len(resultp)):
         print(resultp[index])
         if index > 2 and index < len(resultp) - 2:
-            if resultp[index].p is not None:
-                resultp[index] = resultp[index].p.wrap(resultp[index].new_tag("blockquote"))
+            soup = BeautifulSoup(str(resultp[index]), 'html.parser')
+            if soup.p is not None:
+                soup.p.wrap(soup.new_tag("blockquote"))
+                resultp[index] = soup
 
     for k1, k2 in zip(listp, resultp):
         k1["ptag"].replace_with(k2)
