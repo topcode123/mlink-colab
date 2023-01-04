@@ -288,7 +288,7 @@ def process_content(article, url):
         
         if index > 2 and index < len(resultp) - 2:
             soup = BeautifulSoup(str(resultp[index]), 'html.parser')
-            print(soup)
+            print(soup.p)
             if soup.p is not None:
                 soup.p.wrap(soup.new_tag("blockquote"))
                 resultp[index] = soup
