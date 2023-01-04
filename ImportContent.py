@@ -286,8 +286,9 @@ def process_content(article, url):
             resultp.append(spinService.spin_paragraph_en(i["ptag"], i["keywords"]))
     
     for index in range(0, len(resultp)):
-        if index > 2 and index < len(resultp) -2:
-            resultp[index] = resultp[index].p.wrap(resultp[index].new_tag("blockquote"))
+        if index > 2 and index < len(resultp) - 2:
+            if resultp[index].p is not None:
+                resultp[index] = resultp[index].p.wrap(resultp[index].new_tag("blockquote"))
 
     for k1, k2 in zip(listp, resultp):
         k1["ptag"].replace_with(k2)
