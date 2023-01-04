@@ -80,7 +80,10 @@ def ColabSimple():
                     try:
                         print("search")
                         total_web = 0
-                        list_web = search(f'{keyword["keyword"]} {random_string(random.randrange(10, 30))}', tld="com.vn", start=0, num=20, stop=20,
+                        # list_web = search(f'{keyword["keyword"]} {random_string(random.randrange(10, 30))}', tld="com.vn", start=0, num=20, stop=20,
+                        #                   pause=1,
+                        #                   user_agent=random.choice(userAgents), lang="vi", country="vn")
+                        list_web = search(f'{keyword["keyword"]}', tld="com.vn", start=0, num=20, stop=20,
                                           pause=1,
                                           user_agent=random.choice(userAgents), lang="vi", country="vn")
                         for web in list_web:

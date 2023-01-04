@@ -281,7 +281,6 @@ def process_content(article, url):
         if i["language"] == "vi":
             spinned = spinService.spin_paragraph(i["ptag"], i["keywords"], replaced, keyword_replace, anchor_text, base_url)
             print(spinned)
-            print(str(spinned))
             resultp.append(spinned)
         else:
             resultp.append(spinService.spin_paragraph_en(i["ptag"], i["keywords"]))
