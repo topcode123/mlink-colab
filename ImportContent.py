@@ -284,11 +284,13 @@ def process_content(article, url):
         else:
             resultp.append(spinService.spin_paragraph_en(i["ptag"], i["keywords"]))
     
+
+    fourty_percent = len(resultp) // 4
     for index in range(0, len(resultp)):
         soup = BeautifulSoup(str(resultp[index]), 'html.parser')
         print(soup.p)
         if soup.p is not None:
-            if index > 2 and index < len(resultp) - 2:
+            if index >= fourty_percent and index <= len(resultp) - fourty_percent:
                 soup.p.wrap(soup.new_tag("blockquote"))
                 resultp[index] = soup
 
