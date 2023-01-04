@@ -78,10 +78,12 @@ def ColabSimple():
                 print("key-----word: ", keyword["keyword"])
                 if keyword["language"] == "vi":
                     try:
+                        print("search")
                         total_web = 0
                         list_web = search(f'{keyword["keyword"]} {random_string(random.randrange(10, 30))}', tld="com.vn", start=0, num=20, stop=20,
                                           pause=1,
                                           user_agent=random.choice(userAgents), lang="vi", country="vn")
+                        print(len(list_web))
                         for web in list_web:
                             print(
                                 "--------------------------------------------------------------------------------------------")
