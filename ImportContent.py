@@ -55,7 +55,7 @@ keywords = MongoClient(CONNECTION_STRING_MGA1).campaigns.mlinkkeywords
 mlink_report_posts = MongoClient(CONNECTION_STRING_MGA1).campaigns.mlinkreportposts
 
 contentExtractor = ContentExtractor(config)
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 
 
 def replace_attr(soup, from_attr: str, to_attr: str):
@@ -294,7 +294,7 @@ def process_content(article, url):
                 soup.p.wrap(soup.new_tag("blockquote"))
                 resultp[index] = soup
             else:
-                soup.wrap(soup.new_tag("blockquote"))
+                soup.wrap(Tag(name="blockquote"))
                 resultp[index] = soup
 
     for k1, k2 in zip(listp, resultp):
