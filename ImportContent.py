@@ -289,12 +289,13 @@ def process_content(article, url):
     for index in range(0, len(resultp)):
         if 5 <= index <= len(resultp) - 5:
             soup = BeautifulSoup(str(resultp[index]), 'html.parser')
-            print(soup.p)
+            
             if soup.p is not None:
                 soup.p.wrap(soup.new_tag("blockquote"))
                 resultp[index] = soup
             else:
-                soup.string.wrap(soup.new_tag("blockquote"))
+                print(soup.p)
+                soup.wrap(soup.new_tag("blockquote"))
                 resultp[index] = soup
 
     for k1, k2 in zip(listp, resultp):
