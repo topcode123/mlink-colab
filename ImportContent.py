@@ -290,7 +290,7 @@ def process_content(article, url):
         soup = BeautifulSoup(str(resultp[index]), 'html.parser')
         print(soup.p)
         if soup.p is not None:
-            if index >= fourty_percent and index <= len(resultp) - fourty_percent:
+            if 5 <= index <= len(resultp) - 5:
                 soup.p.wrap(soup.new_tag("blockquote"))
                 resultp[index] = soup
 
