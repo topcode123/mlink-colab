@@ -294,7 +294,7 @@ def process_content(article, url):
                 soup.p.wrap(soup.new_tag("blockquote"))
                 resultp[index] = soup
             else:
-                soup.wrap(Tag(name="blockquote"))
+                soup.string.wrap(soup.new_tag("blockquote"))
                 resultp[index] = soup
 
     for k1, k2 in zip(listp, resultp):
