@@ -288,13 +288,11 @@ def process_content(article, url):
     fourty_percent = len(resultp) // 4
     for index in range(0, len(resultp)):
         if 3 == index:
-            soup = BeautifulSoup(f"{str(resultp[index])}", 'html.parser')
-            soup.replace_with(f"open_blockquote{str(resultp[index])}")
+            soup = BeautifulSoup(f"open_blockquote{str(resultp[index])}", 'html.parser')
             resultp[index] = soup
         
         if index == len(resultp) - 3:
-            soup = BeautifulSoup(f"{str(resultp[index])}", 'html.parser')
-            soup.replace_with(f"{str(resultp[index])}close_blockquote")
+            soup = BeautifulSoup(f"{str(resultp[index])}close_blockquote", 'html.parser')
             resultp[index] = soup
 
 
