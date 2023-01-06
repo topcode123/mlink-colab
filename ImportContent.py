@@ -303,6 +303,9 @@ def process_content(article, url):
     paper = paper.replace("&gt;", ">")
     paper = paper.replace(" . ", ". ")
     paper = paper.replace(" , ", ", ")
+    paper = paper.replace("open_blockquote", "<blockquote>")
+    paper = paper.replace("close_blockquote", "</blockquote>")
+
     try:
         if url["web_info"]["Email_replace"] != '':
             match = re.findall(r'[\w\.-]+@[\w\.-]+', paper)
