@@ -289,12 +289,12 @@ def process_content(article, url):
     for index in range(0, len(resultp)):
         if 3 == index:
             soup = BeautifulSoup(f"{str(resultp[index])}", 'html.parser')
-            soup.string.replace_with(f"open_blockquote{str(resultp[index])}")
+            soup.replace_with(f"open_blockquote{str(resultp[index])}")
             resultp[index] = soup
         
         if index == len(resultp) - 3:
             soup = BeautifulSoup(f"{str(resultp[index])}", 'html.parser')
-            soup.string.replace_with(f"{str(resultp[index])}close_blockquote")
+            soup.replace_with(f"{str(resultp[index])}close_blockquote")
             resultp[index] = soup
 
 
