@@ -287,17 +287,16 @@ def process_content(article, url):
 
     fourty_percent = len(resultp) // 4
     for index in range(0, len(resultp)):
-        if 5 <= index <= len(resultp) - 5:
-            soup = BeautifulSoup(f"<blockquote>{str(resultp[index])}</blockquote>", 'html.parser')
+        if 3 == index:
+            soup = BeautifulSoup(f"{str(resultp[index])}", 'html.parser')
+            soup.string.replace_with(f"open_blockquote{str(resultp[index])}")
             resultp[index] = soup
-            # soup = BeautifulSoup(str(resultp[index]), 'html.parser')
-            
-            # if soup.p is not None:
-            #     soup.p.wrap(soup.new_tag("blockquote"))
-            #     resultp[index] = soup
-            # else:
-            #     soup = BeautifulSoup(f"<blockquote>{str(resultp[index])}</blockquote>", 'html.parser')
-            #     resultp[index] = soup
+        
+        if index == len(resultp) - 3:
+            soup = BeautifulSoup(f"{str(resultp[index])}", 'html.parser')
+            soup.string.replace_with(f"{str(resultp[index])}close_blockquote")
+            resultp[index] = soup
+
 
     for k1, k2 in zip(listp, resultp):
         k1["ptag"].replace_with(k2)
