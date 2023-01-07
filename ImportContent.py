@@ -285,7 +285,6 @@ def process_content(article, url):
             resultp.append(spinService.spin_paragraph_en(i["ptag"], i["keywords"]))
     
 
-    fourty_percent = len(resultp) // 4
     for index in range(0, len(resultp)):
         if 3 == index:
             soup = BeautifulSoup(f"open_blockquote{str(resultp[index])}", 'html.parser')
@@ -303,7 +302,7 @@ def process_content(article, url):
     paper = paper.replace("&gt;", ">")
     paper = paper.replace(" . ", ". ")
     paper = paper.replace(" , ", ", ")
-    paper = paper.replace("open_blockquote", "<blockquote>")
+    paper = paper.replace("open_blockquote", """<blockquote style="border: none !important;padding: 0 !important;text-align: justify;">""")
     paper = paper.replace("close_blockquote", "</blockquote>")
 
     try:
