@@ -56,6 +56,7 @@ userAgents = [
     'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.71 Safari/537.36',
     'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.83 Safari/537.1']
 queue_keywords = client1.queuekeywords.mlink
+queue_keywords_failed = client1.queuekeywords.mlinkfailed
 url = client1.url_test.data
 # mlink_keywords = client1.campaigns.mlinkkeywords
 colab_status = client1.colabstatus.data
@@ -91,12 +92,12 @@ def ColabSimple():
                                 "--------------------------------------------------------------------------------------------")
                             web = web.split("#")[0]
                             total_web = total_web + 1
-                            # if client1.urldone[str(keyword["web_info"]["_id"])].count_documents({"link": web}) > 0:
-                            #     continue
+                            if client1.urldone[str(keyword["web_info"]["_id"])].count_documents({"link": web}) > 0:
+                                continue
                             
                             print("check mlink url done")
-                            # if mlink_url_done.count_documents({"link": web}) > 0:
-                            #     continue
+                            if mlink_url_done.count_documents({"link": web}) > 0:
+                                continue
 
                             domain = urlparse(web).netloc
                             print(f"domain: {domain}")
@@ -185,6 +186,7 @@ def ColabSimple():
                                     print("process failed")
                                     keyword_object[0]["status"] = "failed"
                                     mlink_report_posts.insert_one(keyword_object[0])
+                                    queue_keywords_failed.insert_one(keyword_object[0])
                                     break
                             except Exception as e:
                                 print(e)
