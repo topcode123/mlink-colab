@@ -264,7 +264,6 @@ def process_content(article, url):
     paper.append(nguon)
     # listp = [{"ptag": m, "keywords": url["keyword"], "language": url["language"]} for m in
     #          paper.find_all("p")]
-    print(paper)
     listp = []
     for p_tag in paper.find_all("p"):
         listp.append({"ptag": p_tag, "keywords": url["keyword"], "language": url["language"]})

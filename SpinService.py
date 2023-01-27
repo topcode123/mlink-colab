@@ -194,6 +194,8 @@ def replace_anchortext(anchor_text, base_url, content, keyword):
         anchor_link = f"{anchor_link} "
         list_word = str(keyword).split(" ")
         found = False
+        print(content)
+        print(list_word)
         for word in list_word:
             if re.search(word, content, re.IGNORECASE):
                 pattern = re.compile(word, re.IGNORECASE)
