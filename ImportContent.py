@@ -281,7 +281,7 @@ def process_content(article, url):
             spinned = spinService.spin_paragraph(i["ptag"], i["keywords"], replaced, keyword_replace, anchor_text, base_url)
             resultp.append(spinned)
         else:
-            resultp.append(spinService.spin_paragraph_en(i["ptag"], i["keywords"]))
+            resultp.append(spinService.spin_paragraph_en(i["ptag"], i["keywords"], replaced, keyword_replace, anchor_text, base_url))
     
 
     for index in range(0, len(resultp)):

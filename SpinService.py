@@ -71,7 +71,7 @@ class SpinService:
 
             return p_paragraph1
 
-    def spin_paragraph_en(self, p_paragraph1, keyword):
+    def spin_paragraph_en(self, p_paragraph1, keyword, replaced, keyword_replace, anchor_text, base_url):
 
         p_paragraph = [str(t) if not re.match(r'<[^>]+>', str(t)) else str(t) for t in p_paragraph1.contents]
 
@@ -122,7 +122,15 @@ class SpinService:
                     output = output + " " + words[i]
         else:
             return p_paragraph1
+        
         output = soup(output, "html.parser")
+
+        new_paragraph = output
+        text_replaced = replace_anchortext(anchor_text, base_url, new_paragraph.text, keyword_replace)
+        if text_replaced is not None and replaced["is_replaced"] is False and new_paragraph is not None:
+            new_paragraph.string.replace_with(text_replaced)
+            replaced["is_replaced"] = True
+            
         return output
 
     def spin_title_vi(self, p_paragraph1, keyword):
