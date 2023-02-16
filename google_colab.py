@@ -85,7 +85,7 @@ def ColabSimple():
                         #                   pause=1,
                         #                   user_agent=random.choice(userAgents), lang="vi", country="vn")
                         list_web = search(f'{keyword["keyword"]}', tld="com.vn", start=0, num=20, stop=20,
-                                          pause=1,
+                                          pause=5,
                                           user_agent=random.choice(userAgents), lang="vi", country="vn")
                         for web in list_web:
                             print(
@@ -198,7 +198,7 @@ def ColabSimple():
                     print("language english")
                     total_web = 0
                     list_web = search(keyword["keyword"], tld="com.vn", start=0, num=20, stop=20,
-                                      pause=1,
+                                      pause=5,
                                       user_agent=random.choice(userAgents), lang="en", country="vn")
                     for web in list_web:
                         print(
