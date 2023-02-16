@@ -80,6 +80,7 @@ def process_content(article, url):
     self_url = self_url.replace(".", "")
 
     self_url = self_url.replace("\n", "")
+    self_url = self_url.replace(",", "")
     domain = urlparse(url["link"]).netloc
     images = soup.find_all("img")
     src_img = []
