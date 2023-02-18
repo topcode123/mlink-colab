@@ -71,6 +71,7 @@ TIME_ZONE_VIET_NAM = pytz.timezone("Asia/Jakarta")
 
 def ColabSimple():
     if queue_keywords.count_documents({}) > 0:
+        error_keyword = {}
         try:
             keyword = queue_keywords.find_one_and_delete({})
 
@@ -117,6 +118,7 @@ def ColabSimple():
                                 "post_url": "",
                                 "category": keyword["category"]
                             }]
+                            error_keyword = keyword_object[0]
                             config = Configuration()
                             config.set_language("vi")
                             config.request_timeout = 10
@@ -303,6 +305,8 @@ def ColabSimple():
                             traceback.print_exc()
         except Exception as e:
             print(e)
+            queue_keywords_failed.insert_one(error_keyword)
+            time.sleep(5000)
             traceback.print_exc()
             if "429" in str(e):
                 raise ("too many")
