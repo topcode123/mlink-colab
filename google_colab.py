@@ -305,7 +305,7 @@ def ColabSimple():
                             traceback.print_exc()
         except Exception as e:
             print(e)
-            queue_keywords_failed.insert_one(error_keyword)
+            # queue_keywords_failed.insert_one(error_keyword)
             time.sleep(5000)
             traceback.print_exc()
             if "429" in str(e):
