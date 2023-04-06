@@ -320,6 +320,7 @@ while True:
         #     lasttime = time.time()
         # cancle = False
         ColabSimple()
+        time.sleep(70)
         # ColabSupport()
         # except Exception as e:
         # if cancle:
